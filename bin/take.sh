@@ -1,5 +1,12 @@
 #!/bin/bash
 
+echo "##########"
+echo "take.sh called with arguments: $@"
+echo ""
+echo "ENV:"
+env
+echo ""
+
 download_dir=~/Downloads
 
 user=vc

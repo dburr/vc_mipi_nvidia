@@ -1,6 +1,13 @@
 # /bin/bash
 #
 
+echo "##########"
+echo "monitor.sh called with arguments: $@"
+echo ""
+echo "ENV:"
+env
+echo ""
+
 device=0
 if [[ -n $1 ]]; then
         device=$1

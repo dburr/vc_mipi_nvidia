@@ -1,5 +1,12 @@
 #!/bin/bash
 
+echo "##########"
+echo "flash.sh called with arguments: $@"
+echo ""
+echo "ENV:"
+env
+echo ""
+
 usage() {
         echo "Usage: $0 [options]"
         echo ""
