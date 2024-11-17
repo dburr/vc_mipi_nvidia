@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [ "$DEBUG" = "YES" ]; then
+  echo "##########"
+  echo "helper/dtsi_helper.sh called with arguments: $@"
+  echo ""
+  echo "ENV:"
+  env
+  echo ""
+  set -x
+fi
+
 . config/base.sh
 
 DTSI_KEY=""
@@ -54,6 +64,8 @@ function extract_and_set_key_from_config {
                 DTSI_KEY="${part_str_board}_${part_str_som}"
         fi
 
+        #echo "looking for DTSI_KEY: $DTSI_KEY"
+        #exit 1
         found=0
         # Since associate arrays don't allow duplicate keys, the first occurance of the key is the only one.
         for key in "${!DTSI_FILE_DICT[@]}" 

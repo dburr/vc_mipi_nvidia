@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [ "$DEBUG" = "YES" ]; then
+  echo "##########"
+  echo "configure/setup.sh called with arguments: $@"
+  echo ""
+  echo "ENV:"
+  env
+  echo ""
+  set -x
+fi
+
 usage() {
         echo "Usage: $0 [options]"
         echo ""
@@ -102,6 +112,7 @@ boards=(
 "Auvidea JNX30/JNX30D (https://auvidea.eu/product/70879)"
 "Auvidea JNX42 LM (https://auvidea.eu/product/70784)"
 "Auvidea J20 on Devkit Jetson AGX Xavier or TX2 (https://auvidea.eu/j20)"
+"Antmicro Jetson Orin Baseboard v1.1 (https://github.com/antmicro/jetson-orin-baseboard)"
 )
 
 board_keys=(
@@ -112,6 +123,7 @@ board_keys=(
 "Auvidea_JNX30"
 "Auvidea_JNX42"
 "Auvidea_J20"
+"Antmicro"
 )
 
 choose_board() {
@@ -231,7 +243,7 @@ setup_driver() {
                 choose_bsp 0 1 2
                 ;;
         OrinNano4GB_SD|OrinNano8GB_SD|OrinNano4GB_NVME|OrinNano8GB_NVME)
-                choose_board 3 5
+                choose_board 3 5 7
                 choose_bsp 6 7 8
                 ;;
         OrinNX8GB|OrinNX16GB)
@@ -239,6 +251,12 @@ setup_driver() {
 
                 case ${board} in
                 NV_DevKit_OrinNano)
+                        choose_bsp 8
+                        ;;
+                # Auvidea_JNX42
+                Antmicro)
+                        echo "test"
+                        exit 1
                         choose_bsp 8
                         ;;
                 *)

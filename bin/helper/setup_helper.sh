@@ -1,5 +1,15 @@
 #!/bin/bash
 
+if [ "$DEBUG" = "YES" ]; then
+  echo "##########"
+  echo "helper/setup_helper.sh called with arguments: $@"
+  echo ""
+  echo "ENV:"
+  env
+  echo ""
+  set -x
+fi
+
 . config/base.sh
 
 # This function is intended to download and check a given file.
