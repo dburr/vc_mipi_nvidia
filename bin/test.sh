@@ -1,11 +1,14 @@
 #!/bin/bash
 
-echo "##########"
-echo "test.sh called with arguments: $@"
-echo ""
-echo "ENV:"
-env
-echo ""
+if [ "$DEBUG" = "YES" ]; then
+  echo "##########"
+  echo "test.sh called with arguments: $@"
+  echo ""
+  echo "ENV:"
+  env
+  echo ""
+  set -x
+fi
   
 usage() {
         echo "Usage: $0 [options]"

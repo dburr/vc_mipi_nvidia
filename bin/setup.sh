@@ -1,13 +1,14 @@
 #!/bin/bash
 
-echo "##########"
-echo "setup.sh called with arguments: $@"
-echo ""
-echo "ENV:"
-env
-echo ""
-
-
+if [ "$DEBUG" = "YES" ]; then
+  echo "##########"
+  echo "setup.sh called with arguments: $@"
+  echo ""
+  echo "ENV:"
+  env
+  echo ""
+  set -x
+fi
 
 PARENT_COMMAND=$(ps -o comm= $PPID)
 TEST_COMMAND="test.sh"

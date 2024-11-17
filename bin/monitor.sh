@@ -1,12 +1,15 @@
 # /bin/bash
 #
 
-echo "##########"
-echo "monitor.sh called with arguments: $@"
-echo ""
-echo "ENV:"
-env
-echo ""
+if [ "$DEBUG" = "YES" ]; then
+  echo "##########"
+  echo "monitor.sh called with arguments: $@"
+  echo ""
+  echo "ENV:"
+  env
+  echo ""
+  set -x
+fi
 
 device=0
 if [[ -n $1 ]]; then

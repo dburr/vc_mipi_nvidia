@@ -1,11 +1,14 @@
 #!/bin/bash
 
-echo "##########"
-echo "take.sh called with arguments: $@"
-echo ""
-echo "ENV:"
-env
-echo ""
+if [ "$DEBUG" = "YES" ]; then
+  echo "##########"
+  echo "take.sh called with arguments: $@"
+  echo ""
+  echo "ENV:"
+  env
+  echo ""
+  set -x
+fi
 
 download_dir=~/Downloads
 

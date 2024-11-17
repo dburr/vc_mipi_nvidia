@@ -49,7 +49,7 @@ print_intro() {
 }
 
 check_recovery_mode() {
-        [ ! -z "$SKIP_RECOVERY_MODE_CHECK" ] && return 0
+        [ "$SKIP_RECOVERY_MODE_CHECK" = "YES" ] && return 0
         if [[ -z $(lsusb | grep -i "NVIDIA Corp.") || -n $(lsusb | grep -i "NVIDIA Corp. L4T") ]]; then
                 clear
                 echo "-- Step 1 of 4 ---------------------------------------------"
