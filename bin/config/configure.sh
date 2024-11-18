@@ -58,7 +58,7 @@ DTSI_FILE_DICT+=(
                 ["NV_DevKit_Nano"]="tegra210-camera-vc-mipi-cam.dtsi" 
             ["NV_DevKit_XavierNX"]="tegra194-camera-vc-mipi-cam.dtsi"
           ["Auvidea_JNX30D_TX2NX"]="tegra186-camera-vc-mipi-cam.dtsi"
-             #["Antmicro_OrinNano"]="tegra210-camera-vc-mipi-cam.dtsi"
+             ["Antmicro_OrinNano"]="tegra234-camera-vc-mipi-cam.dtsi"
 )
 
 DTSI_DEST_DICT+=( 
@@ -71,7 +71,7 @@ DTSI_DEST_DICT+=(
                 ["NV_DevKit_Nano"]="$KERNEL_SOURCE/hardware/nvidia/platform/t210/porg/kernel-dts/porg-platforms" 
             ["NV_DevKit_XavierNX"]="$KERNEL_SOURCE/hardware/nvidia/platform/t19x/jakku/kernel-dts/common"
           ["Auvidea_JNX30D_TX2NX"]="$KERNEL_SOURCE/hardware/nvidia/platform/t18x/lanai/kernel-dts/common"
-              #["Antmicro_OrinNano"]="$KERNEL_SOURCE/hardware/nvidia/platform/t210/porg/kernel-dts/porg-platforms"
+             ["Antmicro_OrinNano"]="$KERNEL_SOURCE/hardware/nvidia/platform/t210/porg/kernel-dts/porg-platforms"
 )
 
 if [[ ${!DTSI_FILE_DICT[@]} != ${!DTSI_DEST_DICT[@]} ]]
@@ -102,7 +102,12 @@ echo "------------------------------------------------------------"
 
 
 extract_and_set_key_from_config
+echo "DTSI_KEY: $DTSI_KEY"
+DTSI_FILE=${DTSI_FILE_DICT[$DTSI_KEY]}
+echo "DTSI_FILE: $DTSI_FILE"
 DT_CAM_FILE="${DT_CAM_DIR}/${DTSI_KEY}/${DTSI_FILE_DICT[$DTSI_KEY]}"
+echo $DT_CAM_FILE
+#exit 1
 
 if [[ "1" == $CHECK4MD5 ]]
 then

@@ -64,7 +64,7 @@ function extract_and_set_key_from_config {
                 DTSI_KEY="${part_str_board}_${part_str_som}"
         fi
 
-        #echo "looking for DTSI_KEY: $DTSI_KEY"
+        echo "looking for DTSI_KEY: $DTSI_KEY"
         #exit 1
         found=0
         # Since associate arrays don't allow duplicate keys, the first occurance of the key is the only one.
@@ -73,6 +73,8 @@ function extract_and_set_key_from_config {
                 if [[ $DTSI_KEY == $key ]]
                 then
                         found=1
+                        #echo "found! $key"
+                        #sleep 30
                         break
                 fi
         done
