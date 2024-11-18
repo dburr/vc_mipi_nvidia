@@ -3,3 +3,5 @@
 .vscode-ctags*
 build/
 temp/
+typescript
+*.save
