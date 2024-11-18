@@ -102,6 +102,7 @@ echo "------------------------------------------------------------"
 
 
 extract_and_set_key_from_config
+
 echo "DTSI_KEY: $DTSI_KEY"
 DTSI_FILE=${DTSI_FILE_DICT[$DTSI_KEY]}
 echo "DTSI_FILE: $DTSI_FILE"
