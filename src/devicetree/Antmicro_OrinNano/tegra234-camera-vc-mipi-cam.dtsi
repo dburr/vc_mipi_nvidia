@@ -79,7 +79,7 @@
 
 // Cam0 and Cam1 Trigger pins are swapped in revision 1.0
 // Auvidea board revision 2 and upwards will be compatible with NVIDIA device tree.
-#define REVISION 1
+#define REVISION 2
 #if REVISION == 1
         #define CAM0_PWDN       TEGRA234_MAIN_GPIO(AC, 0)
         #define CAM1_PWDN       TEGRA234_MAIN_GPIO(H, 6)
