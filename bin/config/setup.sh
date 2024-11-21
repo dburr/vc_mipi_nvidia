@@ -253,12 +253,12 @@ setup_driver() {
                 NV_DevKit_OrinNano)
                         choose_bsp 8
                         ;;
-                # Auvidea_JNX42
-                Antmicro)
-                        echo "test"
-                        exit 1
-                        choose_bsp 8
-                        ;;
+                # Antmicro
+                # Antmicro)
+                #         echo "test"
+                #         exit 1
+                #         choose_bsp 8
+                #         ;;
                 *)
                         choose_bsp 5 6 7 8
                         ;;

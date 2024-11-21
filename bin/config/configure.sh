@@ -103,12 +103,14 @@ echo "------------------------------------------------------------"
 
 extract_and_set_key_from_config
 
-echo "DTSI_KEY: $DTSI_KEY"
-DTSI_FILE=${DTSI_FILE_DICT[$DTSI_KEY]}
-echo "DTSI_FILE: $DTSI_FILE"
-DT_CAM_FILE="${DT_CAM_DIR}/${DTSI_KEY}/${DTSI_FILE_DICT[$DTSI_KEY]}"
-echo $DT_CAM_FILE
-#exit 1
+if [ "$DEBUG" = "YES" ]; then
+  echo "DTSI_KEY: $DTSI_KEY"
+  DTSI_FILE=${DTSI_FILE_DICT[$DTSI_KEY]}
+  echo "DTSI_FILE: $DTSI_FILE"
+  DT_CAM_FILE="${DT_CAM_DIR}/${DTSI_KEY}/${DTSI_FILE_DICT[$DTSI_KEY]}"
+  echo $DT_CAM_FILE
+  #exit 1
+fi
 
 if [[ "1" == $CHECK4MD5 ]]
 then
