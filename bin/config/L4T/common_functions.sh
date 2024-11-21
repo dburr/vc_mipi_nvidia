@@ -30,7 +30,7 @@ function Common_setup_eeprom_size {
 
                 echo "Modifying ${EPROM_FILE} ($VC_MIPI_BSP) ..."
                 # JNX42 has no EEPROM
-                if [[ "Auvidea_JNX42" = $VC_MIPI_BOARD ]]
+                if [[ "Auvidea_JNX42" = $VC_MIPI_BOARD || "Antmicro" = $VC_MIPI_BOARD ]]
                 then
                         # Setting EPROM size to 0x0
                         sed -i 's/cvb_eeprom_read_size = <0x100>;/cvb_eeprom_read_size = <0x0>;/' ${EPROM_FILE}
@@ -66,7 +66,7 @@ function Common_setup_gpio_file {
                 FIND_RESULT=0
                 FIND_RESULT=$(grep -q "${GPIO_PART_STR}" ${GPIO_FILE}; echo $?)
 
-                if [[ "Auvidea_JNX42" = $VC_MIPI_BOARD ]]
+                if [[ "Auvidea_JNX42" = $VC_MIPI_BOARD || "Antmicro" = $VC_MIPI_BOARD ]]
                 then
                         if [[ 1 == $FIND_RESULT ]]
                         then
