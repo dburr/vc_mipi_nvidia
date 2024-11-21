@@ -66,7 +66,7 @@ function extract_and_set_key_from_config {
 
         if [ "$DEBUG" = "YES" ]; then
           echo "looking for DTSI_KEY: $DTSI_KEY"
-        #exit 1
+          #exit 1
         fi
         found=0
         # Since associate arrays don't allow duplicate keys, the first occurance of the key is the only one.
@@ -77,7 +77,7 @@ function extract_and_set_key_from_config {
                         found=1
                         if [ "$DEBUG" = "YES" ]; then
                           echo "found! $key"
-                          sleep 30
+                          read FOO
                         fi
                         break
                 fi
