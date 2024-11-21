@@ -5,8 +5,8 @@ Make the following selections when running `quickstart.sh`:
 * SOM: 14 (NVIDIA Jetson Orin Nano 8GB NVME)
 * carrier: 3 (Antmicro Jetson Orin Baseboard v1.1)
   * this entry was created based heavily on 2 (Auvidea JNX42 LM)
-* BSP: 1 ()
-  * NOTE: so far the only one I've tried. Others probably won't work without modification.
+* BSP: 1 (NVIDIA L4T 35.3.1)
+  * NOTE: this is the only version that I have ported and confirmed to work so far. Others are likely to not work work without modification.
 
 # Testing
 
@@ -18,7 +18,7 @@ Use `nvgstcapture-1.0` to verify that it is working.
 
 To simultaneously display on screen: `gst-launch-1.0 nvarguscamerasrc ! ' video/x-raw(memory:NVMM),width=3820, height=2464, framerate=21/1, format=NV12' ! nvvidconv flip-method=0 ! ' video/x-raw,width=960, height=616' ! nvvidconv ! nvegltransform ! nveglglessink -e`
 
-While captring, press:
+While capturing, press:
 
 * `j` to save a frame to disk
 * `1` to start recording video to disk
