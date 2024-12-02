@@ -1,14 +1,16 @@
 # Antmicro specific notes
 
+## Building
+
 Make the following selections when running `quickstart.sh`:
 
-* SOM: 14 (NVIDIA Jetson Orin Nano 8GB NVME)
+* SOM: 9 (NVIDIA Jetson Orin NX 8GB (devkit))
 * carrier: 3 (Antmicro Jetson Orin Baseboard v1.1)
   * this entry was created based heavily on 2 (Auvidea JNX42 LM)
-* BSP: 1 (NVIDIA L4T 35.3.1)
-  * NOTE: this is the only version that I have ported and confirmed to work so far. Others are likely to not work work without modification.
+* BSP: 1 (NVIDIA L4T 35.2.1)
+  * NOTE: Any of the versions listed should work, however 35.2.1 is the only version I have tested so far.
 
-# Testing
+## Testing
 
 [How to test cameras](https://developer.nvidia.com/embedded/learn/tutorials/first-picture-csi-usb-camera)
 
@@ -29,11 +31,10 @@ Automatic capture of stills: `nvgstcapture-1.0 --automate --capture-auto`
 
 Automatic capture of video: `nvgstcapture-1.0 --mode=2 --automate --capture-aut`
 
-# Additional Notes
+## Additional Notes
 
 Setting the following environment variables while running `quickstart.sh`
 (or any of the other scripts) will alter their behavior as follows:
 
 * setting `SKIP_RECOVERY_MODE_CHECK="YES"` will skip the check for a board in recovery mode, allowing the scripts to be run even without the presence of such a board
 * setting `DEBUG="YES"` will print copious debugging information
-

@@ -247,7 +247,7 @@ setup_driver() {
                 choose_bsp 6 7 8
                 ;;
         OrinNX8GB|OrinNX16GB)
-                choose_board 3 5
+                choose_board 3 5 7
 
                 case ${board} in
                 NV_DevKit_OrinNano)

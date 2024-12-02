@@ -64,7 +64,7 @@ function extract_and_set_key_from_config {
                 DTSI_KEY="${part_str_board}_${part_str_som}"
         fi
 
-        if [ "$DEBUG" = "YES" ]; then
+        if [ true -o "$DEBUG" = "YES" ]; then
           echo "looking for DTSI_KEY: $DTSI_KEY"
           #exit 1
         fi

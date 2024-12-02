@@ -36,6 +36,10 @@ KERNEL_SOURCE=$BSP_DIR/Linux_for_Tegra/source/public
 DTSI_FILE_DICT+=(  ["Auvidea_JNX42_OrinNX"]="tegra234-camera-vc-mipi-cam.dtsi")
 DTSI_DEST_DICT+=(  ["Auvidea_JNX42_OrinNX"]="$KERNEL_SOURCE/hardware/nvidia/platform/t23x/p3768/kernel-dts/cvb")
 
+DTSI_FILE_DICT+=(  ["Antmicro_OrinNX"]="tegra234-camera-vc-mipi-cam.dtsi")
+DTSI_DEST_DICT+=(  ["Antmicro_OrinNX"]="$KERNEL_SOURCE/hardware/nvidia/platform/t23x/p3768/kernel-dts/cvb")
+
+
 #setup
 DRIVER_DST_DIR=$KERNEL_SOURCE/kernel/nvidia/drivers/media/i2c
 KERNEL_OUT=$KERNEL_SOURCE/build
