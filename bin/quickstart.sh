@@ -80,6 +80,10 @@ check_for_build_dir() {
   fi
 }
 
+configure() {
+        . config/configure.sh driver 2 4
+}
+
 print_setup_nano_note() {
         if [[ ${verbose} == 'yes' ]]; then
                 clear
