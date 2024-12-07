@@ -29,11 +29,13 @@ function Common_setup_eeprom_size {
                 fi
 
                 echo "Modifying ${EPROM_FILE} ($VC_MIPI_BSP) ..."
-                # JNX42 has no EEPROM
+                # JNX42 and Antmicro boards do not have EEPROM
                 if [[ "Auvidea_JNX42" = $VC_MIPI_BOARD || "Antmicro" = $VC_MIPI_BOARD ]]
                 then
                         # Setting EPROM size to 0x0
                         sed -i 's/cvb_eeprom_read_size = <0x100>;/cvb_eeprom_read_size = <0x0>;/' ${EPROM_FILE}
+                        # to make sure generated dtb is setup properly, not needed in normal operation
+                        #cp  ${EPROM_FILE} /tmp/EEPROM_TEST
                 else
                         # Setting EPROM size to 100x0
                         sed -i 's/cvb_eeprom_read_size = <0x0>;/cvb_eeprom_read_size = <0x100>;/' ${EPROM_FILE}
