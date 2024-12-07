@@ -72,8 +72,12 @@ check_recovery_mode() {
         fi
 }
 
-configure() {
-        . config/configure.sh driver 2 4
+check_for_build_dir() {
+  if [ -d ../build ]; then
+    echo "Build directory already exists. This could interfere with the proper running of this script."
+    echo "Please remove it before running this script."
+    exit 1
+  fi
 }
 
 print_setup_nano_note() {
@@ -172,6 +176,7 @@ done
 
 DIR=$PWD
 
+check_for_build_dir
 print_intro
 check_recovery_mode
 configure
