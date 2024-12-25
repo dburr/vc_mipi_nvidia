@@ -144,13 +144,6 @@ Nano|NanoSD|Nano2GB)
                         ;;
                 esac
                 ;;
-        # Antmicro)
-        #         case $VC_MIPI_BSP in
-        #         32.7.1|32.7.2|32.7.3|32.7.4)
-        #                 PATCHES+=('dt_Antmicro_Nano_32.5.0+')
-        #                 ;;
-        #         esac
-        #         ;;
         esac
 
         # Carrier board independant settings
@@ -181,16 +174,6 @@ XavierNX|XavierNXSD)
                 ;;
                 esac
                 ;;
-        # Antmicro)
-        #         case $VC_MIPI_BSP in
-        #         32.7.1|32.7.2|32.7.3)
-        #                 PATCHES+=('dt_Auvidea_JNX30_XavierNX_32.5.0+')
-        #                 ;;
-        #         35.1.0|35.2.1|35.3.1|35.4.1|36.2.0)
-        #                 # Comment
-        #         ;;
-        #         esac
-        #         ;;
         esac
 
         # Carrier board independant settings
@@ -240,14 +223,15 @@ OrinNano4GB_SD|OrinNano8GB_SD|OrinNano4GB_NVME|OrinNano8GB_NVME|OrinNX8GB|OrinNX
                 ORIN_DTB_SUFFIX='-p3509-a02.dtb'
                 ;;
         Antmicro)
-                if [[ "36.2.0" == $VC_MIPI_BSP ]]
-                then
-                        FLASH_BOARD='p3509-a02-p3767-0000'
-                else
-                        FLASH_BOARD='p3509-a02+p3767-0000'
-                fi
-
-                ORIN_DTB_SUFFIX='-p3509-a02.dtb'
+                # if [[ "35.4.1" == $VC_MIPI_BSP ]]
+                # then
+                #         FLASH_BOARD='p3509-a02-p3767-0000'
+                # else
+                #         FLASH_BOARD='p3509-a02+p3767-0000'
+                # fi
+                # ORIN_DTB_SUFFIX='-p3509-a02.dtb'
+                FLASH_BOARD='jetson-orin-nano-devkit'
+                ORIN_DTB_SUFFIX='-p3768-0000-a0.dtb'
                 ;;
         NV_DevKit_OrinNano)
                 FLASH_BOARD='jetson-orin-nano-devkit'
