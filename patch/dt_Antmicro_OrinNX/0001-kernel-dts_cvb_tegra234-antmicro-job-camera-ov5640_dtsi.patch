@@ -1,5 +1,5 @@
 --- /dev/null
-+++ b/hardware/latform/t23x/p3768/kernel-dts/cvb/tegra234-antmicro-job-camera-ov5640.dtsi
++++ b/hardware/platform/t23x/p3768/kernel-dts/cvb/tegra234-antmicro-job-camera-ov5640.dtsi
 @@ -0,0 +1,517 @@
 +/*
 + * Copyright (c) 2022, NVIDIA CORPORATION.  All rights reserved.

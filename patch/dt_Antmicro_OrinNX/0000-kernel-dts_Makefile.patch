@@ -1,6 +1,6 @@
---- a/hardware/nvidia/platform/t19x/jakku/kernel-dts/common/tegra194-camera-rbpcv2-imx219.dtsi
-+++ b/hardware/nvidia/platform/t19x/jakku/kernel-dts/common/tegra194-camera-rbpcv2-imx219.dtsi
-@@ -23,6 +23,7 @@ dtb-$(BUILD_ENABLE) += tegra234-p3767-0000-as-p3767-0004-p3768-0000-a0.dtb
+--- a/hardware/nvidia/platform/t23x/p3768/kernel-dts/Makefile
++++ b/hardware/nvidia/platform/t23x/p3768/kernel-dts/Makefile
+@@ -23,6 +23,7 @@
  dtb-$(BUILD_ENABLE) += tegra234-p3767-0001-p3768-0000-a0.dtb
  dtb-$(BUILD_ENABLE) += tegra234-p3767-0003-p3768-0000-a0.dtb
  dtb-$(BUILD_ENABLE) += tegra234-p3767-0004-p3768-0000-a0.dtb
