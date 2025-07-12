@@ -1,6 +1,6 @@
 From e8419e6bc7e851938d99ad356d987476b37c1129 Mon Sep 17 00:00:00 2001
-From: Donald Burr <dburr@vctlabs.com>
-Date: Fri, 11 Jul 2025 18:25:56 -0700
+From: Roman Dobrodii <rdobrodii@antmicro.com>
+Date: Tue, 18 Apr 2023 18:25:56 -0700
 Subject: [PATCH] Patch hardware/nvidia/platform/t23x/p3768/kernel-dts/cvb/tegra234-antmicro-job.dtsi
 
 ---
