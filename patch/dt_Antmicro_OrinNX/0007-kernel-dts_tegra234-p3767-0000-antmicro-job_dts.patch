@@ -1,3 +1,11 @@
+From e8419e6bc7e851938d99ad356d987476b37c1129 Mon Sep 17 00:00:00 2001
+From: Donald Burr <dburr@vctlabs.com>
+Date: Fri, 11 Jul 2025 18:25:56 -0700
+Subject: [PATCH] hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0000-antmicro-job.dts
+
+---
+ 1 file changed
+
 --- /dev/null
 +++ b/hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0000-antmicro-job.dts
 @@ -0,0 +1,32 @@
