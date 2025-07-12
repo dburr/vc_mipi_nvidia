@@ -19,6 +19,7 @@
 + * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 + #include <dt-bindings/media/camera.h>
++
 +/*
 + * This DTSI file implements support for Antmicro OV5640 Dual Camera Board
 + * connected to Antmicro Jetson Orin Baseboard (JOB). There are two cameras
@@ -75,6 +76,8 @@
 + * - CSI0_D1 is inverted on SoM
 + * - CSI1_D0 is inverted on SoM
 + */
++
++
 + // Camera nodes
 + &job_cam0_i2c {
 + 	ov5640_cam0: camera@3c {
@@ -82,7 +85,9 @@
 +		reg = <0x3c>;
 +		nvidia,no-sensor-bus-introspection;
 +		vdd-supply = <&job_reg_csia_3v3>;
++
 +		vertical-flip = "true";
++
 +		/* 1920x1080 */
 +		mode0 {
 +			mclk_khz = "24000";
@@ -97,6 +102,7 @@
 +			 * SCIL - 4 lanes of both CSI 0 and CSI 1!
 +			 */
 +			lane_polarity = "6";
++
 +			active_w = "1920";
 +			active_h = "1080";
 +			pixel_t = "bayer_bggr";
@@ -105,6 +111,7 @@
 +			inherent_gain = "1";
 +			pix_clk_hz = "168000000";
 +			csi_pixel_bit_depth = "8";
++
 +			gain_factor = "1";
 +			min_gain_val = "1";
 +			max_gain_val = "16";
@@ -115,9 +122,12 @@
 +			min_exp_time = "34";
 +			max_exp_time = "550385";
 +		};
++
++
 +		ports {
 +			#address-cells = <1>;
 +			#size-cells = <0>;
++
 +			port@0 {
 +				reg = <0>;
 +				ov5640_cam0_out: endpoint {
@@ -130,13 +140,16 @@
 +		};
 +	};
 +};
++
 +&job_cam1_i2c {
 +	ov5640_cam1: camera@3c {
 +		compatible = "ovti,ov5640";
 +		reg = <0x3c>;
 +		nvidia,no-sensor-bus-introspection;
 +		vdd-supply = <&job_reg_csia_3v3>;
++
 +		vertical-flip = "true";
++
 +		/* 1920x1080 */
 +		mode0 {
 +			mclk_khz = "24000";
@@ -146,6 +159,7 @@
 +			discontinuous_clk = "yes";
 +			dpcm_enable = "false";
 +			cil_settletime = "0";
++
 +			active_w = "1920";
 +			active_h = "1080";
 +			pixel_t = "bayer_bggr";
@@ -154,6 +168,7 @@
 +			inherent_gain = "1";
 +			pix_clk_hz = "168000000";
 +			csi_pixel_bit_depth = "8";
++
 +			gain_factor = "1";
 +			min_gain_val = "1";
 +			max_gain_val = "16";
@@ -164,9 +179,12 @@
 +			min_exp_time = "34";
 +			max_exp_time = "550385";
 +		};
++
++
 +		ports {
 +			#address-cells = <1>;
 +			#size-cells = <0>;
++
 +			port@0 {
 +				reg = <0>;
 +				ov5640_cam1_out: endpoint {
@@ -179,13 +197,16 @@
 +		};
 +	};
 +};
++
 +&job_cam2_i2c {
 +	ov5640_cam2: camera@3c {
 +		compatible = "ovti,ov5640";
 +		reg = <0x3c>;
 +		nvidia,no-sensor-bus-introspection;
 +		vdd-supply = <&job_reg_csib_3v3>;
++
 +		vertical-flip = "true";
++
 +		/* 1920x1080 */
 +		mode0 {
 +			mclk_khz = "24000";
@@ -200,6 +221,7 @@
 +			 * SCIL - 4 lanes of both CSI 0 and CSI 1!
 +			 */
 +			lane_polarity = "6";
++
 +			active_w = "1920";
 +			active_h = "1080";
 +			pixel_t = "bayer_bggr";
@@ -209,6 +231,7 @@
 +			// mclk_multiplier = "6.67";
 +			pix_clk_hz = "168000000";
 +			csi_pixel_bit_depth = "8";
++
 +			gain_factor = "1";
 +			min_gain_val = "1";
 +			max_gain_val = "16";
@@ -219,9 +242,12 @@
 +			min_exp_time = "34";
 +			max_exp_time = "550385";
 +		};
++
++
 +		ports {
 +			#address-cells = <1>;
 +			#size-cells = <0>;
++
 +			port@0 {
 +				reg = <0>;
 +				ov5640_cam2_out: endpoint {
@@ -234,13 +260,16 @@
 +		};
 +	};
 +};
++
 +&job_cam3_i2c {
 +	ov5640_cam3: camera@3c {
 +		compatible = "ovti,ov5640";
 +		reg = <0x3c>;
 +		nvidia,no-sensor-bus-introspection;
 +		vdd-supply = <&job_reg_csib_3v3>;
++
 +		vertical-flip = "true";
++
 +		/* 1920x1080 */
 +		mode0 {
 +			mclk_khz = "24000";
@@ -250,6 +279,7 @@
 +			discontinuous_clk = "yes";
 +			dpcm_enable = "false";
 +			cil_settletime = "0";
++
 +			active_w = "1920";
 +			active_h = "1080";
 +			pixel_t = "bayer_bggr";
@@ -258,6 +288,7 @@
 +			inherent_gain = "1";
 +			pix_clk_hz = "168000000";
 +			csi_pixel_bit_depth = "8";
++
 +			gain_factor = "1";
 +			min_gain_val = "1";
 +			max_gain_val = "16";
@@ -268,9 +299,12 @@
 +			min_exp_time = "34";
 +			max_exp_time = "550385";
 +		};
++
++
 +		ports {
 +			#address-cells = <1>;
 +			#size-cells = <0>;
++
 +			port@0 {
 +				reg = <0>;
 +				ov5640_cam3_out: endpoint {
@@ -283,6 +317,7 @@
 +		};
 +	};
 +};
++
 +&tegra_main_gpio {
 +	/* hog camera PWRDN GPIOs: drive all of them low so that cameras are always enabled */
 +	cam0_pwrdn-hog {
@@ -290,22 +325,26 @@
 +		gpios = <TEGRA234_MAIN_GPIO(H, 6) GPIO_ACTIVE_HIGH>;
 +		output-low;
 +	};
++
 +	cam1_pwrdn-hog {
 +		gpio-hog;
 +		gpios = <TEGRA234_MAIN_GPIO(AC, 0) GPIO_ACTIVE_HIGH>;
 +		output-low;
 +	};
++
 +	cam2_pwrdn-hog {
 +		gpio-hog;
 +		gpios = <TEGRA234_MAIN_GPIO(H, 0) GPIO_ACTIVE_HIGH>;
 +		output-low;
 +	};
++
 +	cam3_pwrdn-hog {
 +		gpio-hog;
 +		gpios = <TEGRA234_MAIN_GPIO(N, 1) GPIO_ACTIVE_HIGH>;
 +		output-low;
 +	};
 +};
++
 +/ {
 +	host1x@13e00000 {
 +		nvcsi@15a00000 {
@@ -398,6 +437,7 @@
 +			};
 +		};
 +	};
++
 +	tegra-capture-vi {
 +		num-channels = <4>;
 +		ports {
@@ -437,6 +477,7 @@
 +			};
 +		};
 +	};
++
 +	tcp: tegra-camera-platform {
 +		compatible = "nvidia, tegra-camera-platform";
 +		status = "okay";
