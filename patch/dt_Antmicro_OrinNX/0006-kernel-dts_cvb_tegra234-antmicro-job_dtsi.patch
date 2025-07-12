@@ -69,16 +69,16 @@ Subject: [PATCH] Patch hardware/nvidia/platform/t23x/p3768/kernel-dts/cvb/tegra2
 +		user_led0 {
 +			label = "USER_LED0";
 +			gpios = <&tegra_aon_gpio TEGRA234_AON_GPIO(CC, 0) GPIO_ACTIVE_HIGH>;
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_INDICATOR;
++			//color = <LED_COLOR_ID_GREEN>;
++			//function = LED_FUNCTION_INDICATOR;
 +			linux,default-trigger = "activity";
 +		};
 +
 +		user_led1 {
 +			label = "USER_LED1";
 +			gpios = <&tegra_aon_gpio TEGRA234_AON_GPIO(CC, 1) GPIO_ACTIVE_HIGH>;
-+			color = <LED_COLOR_ID_GREEN>;
-+			function = LED_FUNCTION_INDICATOR;
++			//color = <LED_COLOR_ID_GREEN>;
++			//function = LED_FUNCTION_INDICATOR;
 +		};
 +	};
 +
