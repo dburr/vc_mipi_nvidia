@@ -96,12 +96,20 @@ setup_kernel() {
 
         git commit -m "Initial commit"
 
+        #echo "BREAKPOINT: setup.sh before patch"
+        #bash
+
         for patch in "${PATCHES[@]}"; do
                 echo "Applying patches from ${PATCH_DIR}/${patch}"
                 for patchfile in $PATCH_DIR/${patch}/*.patch; do
                         git am -3 --whitespace=fix --ignore-whitespace < ${patchfile}
                 done
         done
+
+        #echo "BREAKPOINT: setup.sh after before patch"
+        #bash
+
+
 
         git config gc.auto 1
 }

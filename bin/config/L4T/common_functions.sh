@@ -110,7 +110,15 @@ function Common_setup_conf_file {
                 fi
 
                 echo "Modifying ${ORIN_NANO_CONF_FILE} ($VC_MIPI_BSP) ..."
-                CONF_PART_STR='OVERLAY_DTB_FILE="${OVERLAY_DTB_FILE},tegra234-p3767-camera-p3768-vc_mipi-dual.dtbo";'
+                echo "BOOGERS"
+                exit 1
+                if [ "Antmicro" = $VC_MIPI_BOARD ] ; then
+                  echo "PATCH OVERLAY_DTB_FILE LETS GOOOOO"
+                  CONF_PART_STR='OVERLAY_DTB_FILE="${OVERLAY_DTB_FILE},tegra234-p3767-0000-antmicro-job.dtb,tegra234-p3767-camera-p3768-vc_mipi-dual.dtbo";'
+                  exit 1
+                else
+                  CONF_PART_STR='OVERLAY_DTB_FILE="${OVERLAY_DTB_FILE},tegra234-p3767-camera-p3768-vc_mipi-dual.dtbo";'
+                fi
 
                 FIND_RESULT=0
                 FIND_RESULT=$(grep -q "${CONF_PART_STR}" ${ORIN_NANO_CONF_FILE}; echo $?)

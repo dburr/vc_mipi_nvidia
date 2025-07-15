@@ -114,6 +114,11 @@ function L4T_build_device_tree {
         make -C $KERNEL_DIR O=$KERNEL_OUT -j$(nproc) --output-sync=target dtbs
 
         cp -rfv $DTB_OUT/*.dtb $BSP_DIR/Linux_for_Tegra/kernel/dtb/
+
+        echo "DTB_OUT = $DTB_OUT"
+        echo "BSP_DIR = $BSP_DIR"
+        #echo "BREAKPOINT: L4T.sh post L4T_build_device_tree"
+        #bash
 }
 
 function L4T_build_kernel {

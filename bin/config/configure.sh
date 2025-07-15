@@ -236,7 +236,7 @@ OrinNano4GB_SD|OrinNano8GB_SD|OrinNano4GB_NVME|OrinNano8GB_NVME|OrinNX8GB|OrinNX
                         ;;
                 esac
                 FLASH_BOARD='jetson-orin-nano-devkit'
-                ORIN_DTB_SUFFIX='-p3768-0000-a0.dtb'
+                ORIN_DTB_SUFFIX='-antmicro-job.dtb'
                 ;;
         NV_DevKit_OrinNano)
                 FLASH_BOARD='jetson-orin-nano-devkit'
@@ -262,7 +262,11 @@ OrinNano4GB_SD|OrinNano8GB_SD|OrinNano4GB_NVME|OrinNano8GB_NVME|OrinNX8GB|OrinNX
                 FLASH_PARTITION=$ORIN_FLASH_PARTITION_NVME
                 ;;
         OrinNX8GB)
-                ORIN_DTB_SKU='0001'
+                if [[ "Antmicro" == $VC_MIPI_BOARD ]]; then
+                  ORIN_DTB_SKU='0000'
+                else
+                  ORIN_DTB_SKU='0001'
+                fi
                 FLASH_PARTITION=$ORIN_FLASH_PARTITION_NVME
                 ;;
         OrinNX16GB)
@@ -272,6 +276,9 @@ OrinNano4GB_SD|OrinNano8GB_SD|OrinNano4GB_NVME|OrinNano8GB_NVME|OrinNX8GB|OrinNX
         esac
 
         ORIN_DTB_FILE=${ORIN_DTB_PREFIX}${ORIN_DTB_SKU}${ORIN_DTB_SUFFIX}
+ 
+        #echo "ORIN_DTB_FILE = $ORIN_DTB_FILE"
+        #exit 1
         ;;
 *)
         echo "SOM $VC_MIPI_SOM not supported!"
