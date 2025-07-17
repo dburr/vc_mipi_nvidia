@@ -1,0 +1,36 @@
+To: Linus Walleij <linus.walleij@xxxxxxxxxx>, Bartosz Golaszewski <brgl@xxxxxxxx>, Rob Herring <robh+dt@xxxxxxxxxx>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@xxxxxxxxxx>, linux-gpio@xxxxxxxxxxxxxxx, devicetree@xxxxxxxxxxxxxxx, linux-kernel@xxxxxxxxxxxxxxx
+Subject: [PATCH v2 2/2] gpio: pca953x: introduce support for nxp,pcal6408
+From: Nate Drude <nate.d@xxxxxxxxxxxxx>
+Date: Tue, 13 Sep 2022 13:24:36 -0500
+Cc: eran.m@xxxxxxxxxxxxx, Nate Drude <nate.d@xxxxxxxxxxxxx>
+References: <20220913182436.589713-1-nate.d@variscite.com>
+
+The NXP PCAL6408 is the 8-bit version of PCAL6416.
+
+Signed-off-by: Nate Drude <nate.d@xxxxxxxxxxxxx>
+---
+ drivers/gpio/gpio-pca953x.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+b/hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0000-antmicro-job.dts
+
+diff --git a/kernel/kernel-5.10/drivers/gpio/gpio-pca953x.c b/kernel/kernel-5.10/drivers/gpio/gpio-pca953x.c
+index 2925f4d8cef3..ba012ac7cd8c 100644
+--- a/kernel/kernel-5.10/drivers/gpio/gpio-pca953x.c
++++ b/kernel/kernel-5.10/drivers/gpio/gpio-pca953x.c
+@@ -89,6 +89,7 @@ static const struct i2c_device_id pca953x_id[] = {
+ 	{ "pca9575", 16 | PCA957X_TYPE | PCA_INT, },
+ 	{ "pca9698", 40 | PCA953X_TYPE, },
+ 
++	{ "pcal6408", 8 | PCA953X_TYPE | PCA_LATCH_INT, },
+ 	{ "pcal6416", 16 | PCA953X_TYPE | PCA_LATCH_INT, },
+ 	{ "pcal6524", 24 | PCA953X_TYPE | PCA_LATCH_INT, },
+ 	{ "pcal9535", 16 | PCA953X_TYPE | PCA_LATCH_INT, },
+@@ -1243,6 +1244,7 @@ static const struct of_device_id pca953x_dt_ids[] = {
+ 	{ .compatible = "nxp,pca9575", .data = OF_957X(16, PCA_INT), },
+ 	{ .compatible = "nxp,pca9698", .data = OF_953X(40, 0), },
+ 
++	{ .compatible = "nxp,pcal6408", .data = OF_953X(8, PCA_LATCH_INT), },
+ 	{ .compatible = "nxp,pcal6416", .data = OF_953X(16, PCA_LATCH_INT), },
+ 	{ .compatible = "nxp,pcal6524", .data = OF_953X(24, PCA_LATCH_INT), },
+ 	{ .compatible = "nxp,pcal9535", .data = OF_953X(16, PCA_LATCH_INT), },
