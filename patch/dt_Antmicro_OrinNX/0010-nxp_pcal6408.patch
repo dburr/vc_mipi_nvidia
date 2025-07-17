@@ -12,21 +12,9 @@ Signed-off-by: Nate Drude <nate.d@xxxxxxxxxxxxx>
  drivers/gpio/gpio-pca953x.c | 2 ++
  1 file changed, 2 insertions(+)
 
-b/hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0000-antmicro-job.dts
-
-diff --git a/kernel/kernel-5.10/drivers/gpio/gpio-pca953x.c b/kernel/kernel-5.10/drivers/gpio/gpio-pca953x.c
-index 2925f4d8cef3..ba012ac7cd8c 100644
 --- a/kernel/kernel-5.10/drivers/gpio/gpio-pca953x.c
 +++ b/kernel/kernel-5.10/drivers/gpio/gpio-pca953x.c
-@@ -89,6 +89,7 @@ static const struct i2c_device_id pca953x_id[] = {
- 	{ "pca9575", 16 | PCA957X_TYPE | PCA_INT, },
- 	{ "pca9698", 40 | PCA953X_TYPE, },
- 
-+	{ "pcal6408", 8 | PCA953X_TYPE | PCA_LATCH_INT, },
- 	{ "pcal6416", 16 | PCA953X_TYPE | PCA_LATCH_INT, },
- 	{ "pcal6524", 24 | PCA953X_TYPE | PCA_LATCH_INT, },
- 	{ "pcal9535", 16 | PCA953X_TYPE | PCA_LATCH_INT, },
-@@ -1243,6 +1244,7 @@ static const struct of_device_id pca953x_dt_ids[] = {
+@@ -1214,6 +1214,7 @@
  	{ .compatible = "nxp,pca9575", .data = OF_957X(16, PCA_INT), },
  	{ .compatible = "nxp,pca9698", .data = OF_953X(40, 0), },
  
