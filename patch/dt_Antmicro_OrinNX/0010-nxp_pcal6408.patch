@@ -8,6 +8,8 @@ References: <20220913182436.589713-1-nate.d@variscite.com>
 The NXP PCAL6408 is the 8-bit version of PCAL6416.
 
 Signed-off-by: Nate Drude <nate.d@xxxxxxxxxxxxx>
+
+Source: https://www.spinics.net/lists/kernel/msg4513613.html
 ---
  drivers/gpio/gpio-pca953x.c | 2 ++
  1 file changed, 2 insertions(+)
