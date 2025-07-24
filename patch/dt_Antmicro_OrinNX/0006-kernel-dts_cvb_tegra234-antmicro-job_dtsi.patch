@@ -31,7 +31,7 @@ Subject: [PATCH] Patch hardware/nvidia/platform/t23x/p3768/kernel-dts/cvb/tegra2
 +#include "tegra234-p3509-a02-pcie.dtsi"
 +#include "tegra234-p3509-audio.dtsi"
 +#include "tegra234-antmicro-job-fixed-regulators.dtsi"
-+#include "tegra234-antmicro-job-i2c-buses.dtsi"
++//#include "tegra234-antmicro-job-i2c-buses.dtsi"
 +#include "tegra234-antmicro-job-gpioex.dtsi"
 +#include "tegra234-antmicro-job-usb.dtsi"
 +
