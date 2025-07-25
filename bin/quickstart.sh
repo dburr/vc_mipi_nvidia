@@ -138,6 +138,10 @@ print_configure_camera_note() {
 configure_camera() {
         setup_nano
         print_configure_camera_note
+        if [ "$SKIP_NANO" = "YES" ]; then
+                return 0
+        fi
+
         nano -l +23 $DT_CAM_FILE
 }
 

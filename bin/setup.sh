@@ -260,6 +260,9 @@ setup_bsp() {
 }
 
 setup_camera() {
+        if [ "$SKIP_NANO" = "YES" ]; then
+                return 0
+        fi
         nano -l +23 $DT_CAM_FILE
 }
 
