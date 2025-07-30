@@ -5,3 +5,4 @@ build/
 temp/
 typescript
 *.save
+tmp
