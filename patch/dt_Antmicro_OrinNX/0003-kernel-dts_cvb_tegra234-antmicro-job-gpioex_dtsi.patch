@@ -8,7 +8,7 @@ Subject: [PATCH] Patch hardware/nvidia/platform/t23x/p3768/kernel-dts/cvb/tegra2
 
 --- /dev/null
 +++ b/hardware/nvidia/platform/t23x/p3768/kernel-dts/cvb/tegra234-antmicro-job-gpioex.dtsi
-@@ -0,0 +1,47 @@
+@@ -0,0 +1,56 @@
 +/*
 + * Copyright (c) 2023 Antmicro <www.antmicro.com>
 + *
@@ -21,7 +21,6 @@ Subject: [PATCH] Patch hardware/nvidia/platform/t23x/p3768/kernel-dts/cvb/tegra2
 + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 + * more details.
 + */
-+
 +
 +&gen2_i2c {
 +	job_gpio_expander: gpio@20 {
@@ -44,6 +43,16 @@ Subject: [PATCH] Patch hardware/nvidia/platform/t23x/p3768/kernel-dts/cvb/tegra2
 +		interrupt-controller;
 +		#interrupt-cells = <2>;
 +
++		csia_pen-hog {
++			gpio-hog;
++			gpios = <0 GPIO_ACTIVE_HIGH>;
++			output-high;
++		};
++		csib_pen-hog {
++			gpio-hog;
++			gpios = <1 GPIO_ACTIVE_HIGH>;
++			output-low;
++		};
 +		usbc1_pen-hog {
 +			gpio-hog;
 +			gpios = <2 GPIO_ACTIVE_HIGH>;
