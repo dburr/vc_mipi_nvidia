@@ -263,7 +263,7 @@ OrinNano4GB_SD|OrinNano8GB_SD|OrinNano4GB_NVME|OrinNano8GB_NVME|OrinNX8GB|OrinNX
                 ;;
         OrinNX8GB)
                 if [[ "Antmicro" == $VC_MIPI_BOARD ]]; then
-                  ORIN_DTB_SKU='0000'
+                  ORIN_DTB_SKU='0001'
                 else
                   ORIN_DTB_SKU='0001'
                 fi
