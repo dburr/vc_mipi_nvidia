@@ -58,7 +58,7 @@ DTSI_FILE_DICT+=(
                 ["NV_DevKit_Nano"]="tegra210-camera-vc-mipi-cam.dtsi" 
             ["NV_DevKit_XavierNX"]="tegra194-camera-vc-mipi-cam.dtsi"
           ["Auvidea_JNX30D_TX2NX"]="tegra186-camera-vc-mipi-cam.dtsi"
-               ["Antmicro_OrinNX"]="tegra234-camera-vc-mipi-cam.dtsi"
+               ["Antmicro_OrinNX"]="tegra234-antmicro-job-camera-vc-mipi-cam.dtsi"
 )
 
 DTSI_DEST_DICT+=( 
