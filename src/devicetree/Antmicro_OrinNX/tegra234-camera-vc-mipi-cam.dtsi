@@ -1,0 +1,159 @@
+/*
+ * Copyright (c) 2024, Vision Components GmbH.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <dt-bindings/media/camera.h>
+#include <dt-bindings/pinctrl/pinctrl-tegra.h>
+
+// ------------------------------------------------------------------------------------------------
+//  Driver Configuration for NVIDIA Jetson Orin NX on Auvidea JNX42 LM Developer Kit
+// ------------------------------------------------------------------------------------------------
+#define VC_MIPI_CAM_0       1   // 1: Enabled, 0: Disabled  (serial_a => CSI Port 0 => VI Stream 0)
+#define VC_MIPI_CAM_1       1   // 1: Enabled, 0: Disabled  (serial_c => CSI Port 2 => VI Stream 2)
+// ------------------------------------------------------------------------------------------------
+//  Supported number of lanes
+// -----+------------------------------------------------------------------------------------------
+//  1   | OV7251, IMX296, IMX297
+//  2   | OV9281, IMX264, IMX265
+//  2,4 | IMX178, IMX183, IMX226, IMX250, IMX252, IMX273, IMX290, IMX327, IMX335, IMX392, 
+//      | IMX412, IMX415, IMX462, IMX565, IMX566, IMX567, IMX568, IMX900
+// -----+------------------------------------------------------------------------------------------
+#define VC_MIPI_LANES       4   // 1, 2, 4 Lanes
+// ------------------------------------------------------------------------------------------------
+//  Embedded Metadata Height
+// -----+------------------------------------------------------------------------------------------
+//  0   | IMX178, IMX183, IMX226, IMX250, IMX252, IMX264, IMX265, IMX273, IMX392, OV7251, OV9281
+//  1   | IMX290, IMX327, IMX335, IMX415, IMX462, IMX900
+//  2   | IMX296, IMX297, IMX412
+//  4   | IMX565, IMX566, IMX567, IMX568
+// -----+------------------------------------------------------------------------------------------
+#define VC_MIPI_METADATA_H  "1" // "0", "1", "2", "4" Lines of meta data
+// ------------------------------------------------------------------------------------------------
+//   Sensor Manufacturer
+// -----+------------------------------------------------------------------------------------------
+//   1  | Sony Sensor (IMX)
+//   2  | Omni Vision Sensor (OV)
+// -----+------------------------------------------------------------------------------------------
+#define VC_MIPI_MANUFACTURER 1
+// ------------------------------------------------------------------------------------------------
+//  GStreamer Support
+// ------------------------------------------------------------------------------------------------
+//  If you want to use GStreamer with nvarguscamerasrc you have to adjust this settings in the 
+//  device tree below. The sections which have to be modified are marked by a comment. 
+//  To find the correct parameter values please follow the instruction in the main README.md of 
+//  this repository https://github.com/VC-MIPI-modules/vc_mipi_nvidia#gstreamer-support
+// ------------------------------------------------------------------------------------------------
+
+// GPIO Expander
+
+&gen2_i2c {
+	job_gpio_expander: gpio@20 {
+		compatible = "nxp,pcal6408";
+		status = "okay";
+		reg = <0x20>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		gpio-line-names =
+			"CSIA_PEN",
+			"CSIB_PEN",
+			"USBC1_PEN",
+			"DISABLE_POE_DCDC",
+			"CSIA_FLG",
+			"CSIB_FLG",
+			"USBC1_FLG",
+			"USBC0_FLG";
+		interrupt-parent = <&tegra_main_gpio>;
+		interrupts = <TEGRA234_MAIN_GPIO(P, 6) GPIO_ACTIVE_LOW>;
+		interrupt-controller;
+		#interrupt-cells = <2>;
+
+        // lock CSI A cameras always-on
+		csia_pen-hog {
+			gpio-hog;
+			gpios = <0 GPIO_ACTIVE_HIGH>;
+			output-high;
+		};
+        // lock CSI B cameras always-OFF (since we're not using it)
+		csib_pen-hog {
+			gpio-hog;
+			gpios = <1 GPIO_ACTIVE_HIGH>;
+			output-low;
+		};
+
+        // other stuff cribbed from the antmicro dtsi, not sure if it's necessary but here it is in case
+		usbc1_pen-hog {
+			gpio-hog;
+			gpios = <2 GPIO_ACTIVE_HIGH>;
+			output-high;
+		};
+		disable_poe_dcdc-hog {
+			gpio-hog;
+			gpios = <3 GPIO_ACTIVE_HIGH>;
+			output-low;
+		};
+	};
+};
+
+// i2c mux
+
+&cam_i2c {
+	job_cam_i2c_mux: pca9548@70 {
+		compatible = "nxp,pca9548";
+		status = "okay";
+		reg = <0x70>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		job_cam0_i2c: i2c@0 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0>;
+		};
+
+		job_cam1_i2c: i2c@1 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>;
+		};
+
+		job_cam2_i2c: i2c@2 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <2>;
+		};
+
+		job_cam3_i2c: i2c@3 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <3>;
+		};
+	};
+};
+
+/ {
+	/*
+	 * Assign fixed I2C bus numbers (visible as /dev/i2c-*)
+	 * to muxed CAM I2C interfaces
+	 */
+	aliases {
+		i2c16 = &job_cam0_i2c;
+		i2c17 = &job_cam1_i2c;
+		i2c18 = &job_cam2_i2c;
+		i2c19 = &job_cam3_i2c;
+	};
+};
+
+// to be continued
