@@ -82,6 +82,276 @@
     #define VC_MIPI_CAMERAS 1
 #endif
 
+// GPIO Expander
+
+&gen2_i2c {
+	job_gpio_expander: gpio@20 {
+		compatible = "nxp,pcal6408";
+		status = "okay";
+		reg = <0x20>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		gpio-line-names =
+			"CSIA_PEN",
+			"CSIB_PEN",
+			"USBC1_PEN",
+			"DISABLE_POE_DCDC",
+			"CSIA_FLG",
+			"CSIB_FLG",
+			"USBC1_FLG",
+			"USBC0_FLG";
+		interrupt-parent = <&tegra_main_gpio>;
+		interrupts = <TEGRA234_MAIN_GPIO(P, 6) GPIO_ACTIVE_LOW>;
+		interrupt-controller;
+		#interrupt-cells = <2>;
+
+        // lock CSI A cameras always-on
+		csia_pen-hog {
+			gpio-hog;
+			gpios = <0 GPIO_ACTIVE_HIGH>;
+			output-high;
+		};
+        // lock CSI B cameras always-OFF (since we're not using it)
+		csib_pen-hog {
+			gpio-hog;
+			gpios = <1 GPIO_ACTIVE_HIGH>;
+			output-low;
+		};
+
+        // other stuff cribbed from the antmicro dtsi, not sure if it's necessary but here it is in case
+		usbc1_pen-hog {
+			gpio-hog;
+			gpios = <2 GPIO_ACTIVE_HIGH>;
+			output-high;
+		};
+		disable_poe_dcdc-hog {
+			gpio-hog;
+			gpios = <3 GPIO_ACTIVE_HIGH>;
+			output-low;
+		};
+	};
+};
+
+// i2c mux
+
+&cam_i2c {
+	job_cam_i2c_mux: pca9548@70 {
+		compatible = "nxp,pca9548";
+		status = "okay";
+		reg = <0x70>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+ 
+#if VC_MIPI_CAM_0 == 1
+                                        i2c@0 {
+                                                status = "okay";
+                                                reg = <0>;
+                                                #address-cells = <1>;
+                                                #size-cells = <0>;
+
+#if VC_MIPI_MANUFACTURER == 1
+                                                vc_mipi_cam0: vc_mipi@1a {
+                                                        reg                     = <0x1a>;
+#else
+                                                vc_mipi_cam0: vc_mipi@60 {
+                                                        reg                     = <0x60>;
+#endif
+                                                        //reset-gpios = <&gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
+
+                                                        compatible              = "nvidia,vc_mipi";
+                                                        devnode                 = "video0";
+                                                        use_sensor_mode_id      = "false";
+                                                        sensor_model            = "vc_mipi";
+
+                                                        num_lanes               = NUM_LANES;
+                                                        trigger_mode            = "0";
+                                                        io_mode                 = "0";
+
+                                                        // ----------------------------------------------------
+                                                        // If you want to use GStreamer with nvarguscamerasrc
+                                                        // you have to adjust this settings
+                                                        physical_w              = "1.000";
+                                                        physical_h              = "1.000";
+                                                        // ----------------------------------------------------
+                                                        // This node is needed by the Tegra framework.
+                                                        // You don't have to change any settings if just want 
+                                                        // to use the V4L API.
+                                                        mode0 {
+                                                                num_lanes                = NUM_LANES;
+                                                                tegra_sinterface         = "serial_b";
+                                                                embedded_metadata_height = VC_MIPI_METADATA_H;
+                                                                readout_orientation      = "0";
+                                                                lane_polarity            = "6";
+
+                                                                // ----------------------------------------------------
+                                                                // If you want to use GStreamer with nvarguscamerasrc
+                                                                // you have to adjust this settings. 
+                                                                active_l                 = "0";
+                                                                active_t                 = "0";
+                                                                active_w                 = "0";
+                                                                active_h                 = "0";
+                                                                mode_type                = "bayer";
+                                                                pixel_phase              = "rggb";
+                                                                csi_pixel_bit_depth      = "10";
+
+                                                                min_gain_val             = "0";         // mdB
+                                                                max_gain_val             = "48000";     // mdB
+                                                                step_gain_val            = "100";       // mdB
+                                                                default_gain             = "0";         // mdB
+
+                                                                min_exp_time             = "1";         // us
+                                                                max_exp_time             = "1000000";   // us
+                                                                step_exp_time            = "1";         // us
+                                                                default_exp_time         = "10000";     // us
+
+                                                                // For applications like argus_camera, there should 
+                                                                // be a minimal frame rate greater than zero!
+                                                                min_framerate            = "100";       // mHz
+                                                                max_framerate            = "60000";     // mHz
+                                                                step_framerate           = "100";       // mHz
+                                                                default_framerate        = "60000";     // mHz
+                                                                // ----------------------------------------------------
+
+                                                                gain_factor              = "1000";
+                                                                exposure_factor          = "1000000";
+                                                                framerate_factor         = "1000";
+                                                                inherent_gain            = "1";
+                                                                min_hdr_ratio            = "1";
+                                                                max_hdr_ratio            = "1";
+
+                                                                line_length              = "0";
+                                                                phy_mode                 = "DPHY";
+                                                                discontinuous_clk        = "no";
+                                                                mclk_khz                 = "24000";
+                                                                pix_clk_hz               = PIX_CLK_HZ;
+                                                                mclk_multiplier          = "0.0";		// deprecated
+                                                                cil_settletime           = "0";
+                                                                dpcm_enable              = "false";
+
+                                                                set_mode_delay_ms        = "100000";
+                                                        };
+
+                                                        ports {
+                                                                #address-cells = <1>;
+                                                                #size-cells = <0>;
+                                                                port@0 {
+                                                                        reg = <0>;
+                                                                        vc_mipi_out0: endpoint {
+                                                                                port-index = <1>;
+                                                                                bus-width = <BUS_WIDTH>;
+                                                                                remote-endpoint = <&vc_csi_in0>;
+                                                                        };
+                                                                };
+                                                        };
+                                                };
+                                        };
+#endif
+
+#if VC_MIPI_CAM_1 == 1
+                                        i2c@1 {
+                                                status = "okay";
+                                                reg = <1>;
+                                                #address-cells = <1>;
+                                                #size-cells = <0>;
+
+#if VC_MIPI_MANUFACTURER == 1
+                                                vc_mipi@1a {
+                                                        reg                     = <0x1a>;
+#else
+                                                vc_mipi@60 {
+                                                        reg                     = <0x60>;
+#endif
+                                                        //reset-gpios = <&gpio CAM1_PWDN GPIO_ACTIVE_HIGH>;
+
+                                                        compatible              = "nvidia,vc_mipi";
+                                                        devnode                 = "video1";
+                                                        use_sensor_mode_id      = "false";
+                                                        sensor_model            = "vc_mipi";
+
+                                                        num_lanes               = NUM_LANES;
+                                                        trigger_mode            = "0";
+                                                        io_mode                 = "0";
+
+                                                        // ----------------------------------------------------
+                                                        // If you want to use GStreamer with nvarguscamerasrc
+                                                        // you have to adjust this settings
+                                                        physical_w              = "1.000";
+                                                        physical_h              = "1.000";
+                                                        // ----------------------------------------------------
+
+                                                        mode0 {
+                                                                num_lanes                = NUM_LANES;
+                                                                tegra_sinterface         = "serial_c";
+                                                                embedded_metadata_height = VC_MIPI_METADATA_H;
+                                                                readout_orientation      = "0";
+                                                                lane_polarity            = "0";
+
+                                                                // ----------------------------------------------------
+                                                                // If you want to use GStreamer with nvarguscamerasrc
+                                                                // you have to adjust this settings. 
+                                                                active_l                 = "0";
+                                                                active_t                 = "0";
+                                                                active_w                 = "0";
+                                                                active_h                 = "0";
+                                                                mode_type                = "bayer";
+                                                                pixel_phase              = "rggb";
+                                                                csi_pixel_bit_depth      = "10";
+
+                                                                min_gain_val             = "0";         // mdB
+                                                                max_gain_val             = "48000";     // mdB
+                                                                step_gain_val            = "100";       // mdB
+                                                                default_gain             = "0";         // mdB
+
+                                                                min_exp_time             = "1";         // us
+                                                                max_exp_time             = "1000000";   // us
+                                                                step_exp_time            = "1";         // us
+                                                                default_exp_time         = "10000";     // us
+
+                                                                // For applications like argus_camera, there should 
+                                                                // be a minimal frame rate greater than zero!
+                                                                min_framerate            = "100";       // mHz
+                                                                max_framerate            = "60000";     // mHz
+                                                                step_framerate           = "100";       // mHz
+                                                                default_framerate        = "60000";     // mHz
+                                                                // ----------------------------------------------------
+
+                                                                gain_factor              = "1000";
+                                                                exposure_factor          = "1000000";
+                                                                framerate_factor         = "1000";
+                                                                inherent_gain            = "1";
+                                                                min_hdr_ratio            = "1";
+                                                                max_hdr_ratio            = "1";
+
+                                                                line_length              = "0";
+                                                                phy_mode                 = "DPHY";
+                                                                discontinuous_clk        = "no";
+                                                                mclk_khz                 = "24000";
+                                                                pix_clk_hz               = PIX_CLK_HZ;
+                                                                mclk_multiplier          = "0.0";		// deprecated
+                                                                cil_settletime           = "0";
+                                                                dpcm_enable              = "false";
+
+                                                                set_mode_delay_ms        = "100000";
+                                                        };
+
+                                                        ports {
+                                                                #address-cells = <1>;
+                                                                #size-cells = <0>;
+                                                                port@0 {
+                                                                        reg = <0>;
+                                                                        vc_mipi_out1: endpoint {
+                                                                                port-index = <2>;
+                                                                                bus-width = <BUS_WIDTH>;
+                                                                                remote-endpoint = <&vc_csi_in1>;
+                                                                        };
+                                                                };
+                                                        };
+                                                };
+                                        };
+#endif
+    };
+};
+
 / {
         tegra-capture-vi  {
                 num-channels = <VC_MIPI_CAMERAS>;
@@ -166,203 +436,6 @@
                 };
         };
 
-        cam_i2cmux {
-#if VC_MIPI_CAM_0 == 1
-                i2c@0 {
-#if VC_MIPI_MANUFACTURER == 1
-                        vc_mipi_cam0: vc_mipi@1a {
-                                reg                     = <0x1a>;
-#else
-                        vc_mipi_cam0: vc_mipi@60 {
-                                reg                     = <0x60>;
-#endif
-                                compatible              = "nvidia,vc_mipi";
-                                devnode                 = "video0";
-                                use_sensor_mode_id      = "false";
-                                sensor_model            = "vc_mipi";
-
-                                num_lanes               = NUM_LANES;
-                                trigger_mode            = "0";
-                                io_mode                 = "0";
-
-                                // ----------------------------------------------------
-                                // If you want to use GStreamer with nvarguscamerasrc
-                                // you have to adjust this settings
-                                physical_w              = "1.000";
-                                physical_h              = "1.000";
-                                // ----------------------------------------------------
-
-                                // This node is needed by the Tegra framework.
-                                // You don't have to change any settings if just want 
-                                // to use the V4L API.
-                                mode0 {
-                                        num_lanes                = NUM_LANES;
-                                        tegra_sinterface         = "serial_a";
-                                        embedded_metadata_height = VC_MIPI_METADATA_H;
-                                        readout_orientation      = "0";
-                                        lane_polarity            = "6";
-
-                                        // ----------------------------------------------------
-                                        // If you want to use GStreamer with nvarguscamerasrc
-                                        // you have to adjust this settings. 
-                                        active_l                 = "0";
-                                        active_t                 = "0";
-                                        active_w                 = "0";
-                                        active_h                 = "0";
-                                        mode_type                = "bayer";
-                                        pixel_phase              = "rggb";
-                                        csi_pixel_bit_depth      = "10";
-
-                                        min_gain_val             = "0";         // mdB
-                                        max_gain_val             = "48000";     // mdB
-                                        step_gain_val            = "100";       // mdB
-                                        default_gain             = "0";         // mdB
-
-                                        min_exp_time             = "1";         // us
-                                        max_exp_time             = "1000000";   // us
-                                        step_exp_time            = "1";         // us
-                                        default_exp_time         = "10000";     // us
-
-                                        // For applications like argus_camera, there should 
-                                        // be a minimal frame rate greater than zero!
-                                        min_framerate            = "100";       // mHz
-                                        max_framerate            = "60000";     // mHz
-                                        step_framerate           = "100";       // mHz
-                                        default_framerate        = "60000";     // mHz
-                                        // ----------------------------------------------------
-
-                                        gain_factor              = "1000";
-                                        exposure_factor          = "1000000";
-                                        framerate_factor         = "1000";
-                                        inherent_gain            = "1";
-                                        min_hdr_ratio            = "1";
-                                        max_hdr_ratio            = "1";
-
-                                        line_length              = "0";
-                                        phy_mode                 = "DPHY";
-                                        discontinuous_clk        = "no";
-                                        mclk_khz                 = "24000";
-                                        pix_clk_hz               = PIX_CLK_HZ;
-                                        mclk_multiplier          = "0.0";       // deprecated
-                                        cil_settletime           = "0";
-                                        dpcm_enable              = "false";
-                                };
-
-                                ports {
-                                        #address-cells = <1>;
-                                        #size-cells = <0>;
-                                        port@0 {
-                                                reg = <0>;
-                                                vc_mipi_out0: endpoint {
-                                                        port-index = <0>;
-                                                        bus-width = <BUS_WIDTH>;
-                                                        remote-endpoint = <&vc_csi_in0>;
-                                                };
-                                        };
-                                };
-                        };
-                };
-#endif // VC_MIPI_CAM_0
-
-#if VC_MIPI_CAM_1 == 1
-                i2c@1 {
-#if VC_MIPI_MANUFACTURER == 1
-                        vc_mipi_cam1: vc_mipi@1a {
-                                reg                     = <0x1a>;
-#else
-                        vc_mipi_cam1: vc_mipi@60 {
-                                reg                     = <0x60>;
-#endif
-                                compatible              = "nvidia,vc_mipi";
-                                devnode                 = "video1";
-                                use_sensor_mode_id      = "false";
-                                sensor_model            = "vc_mipi";
-
-                                num_lanes               = NUM_LANES;
-                                trigger_mode            = "0";
-                                io_mode                 = "0";
-
-                                // ----------------------------------------------------
-                                // If you want to use GStreamer with nvarguscamerasrc
-                                // you have to adjust this settings
-                                physical_w              = "0.000";
-                                physical_h              = "0.000";
-                                // ----------------------------------------------------
-
-                                // This node is needed by the Tegra framework.
-                                // You don't have to change any settings if just want 
-                                // to use the V4L API.
-                                mode0 {
-                                        num_lanes                = NUM_LANES;
-                                        tegra_sinterface         = "serial_c";
-                                        embedded_metadata_height = VC_MIPI_METADATA_H;
-                                        readout_orientation      = "0";
-                                        lane_polarity            = "0";
-
-                                        // ----------------------------------------------------
-                                        // If you want to use GStreamer with nvarguscamerasrc
-                                        // you have to adjust this settings. 
-                                        active_l                 = "0";
-                                        active_t                 = "0";
-                                        active_w                 = "0";
-                                        active_h                 = "0";
-                                        mode_type                = "bayer";
-                                        pixel_phase              = "rggb";
-                                        csi_pixel_bit_depth      = "10";
-
-                                        min_gain_val             = "0";         // mdB
-                                        max_gain_val             = "48000";     // mdB
-                                        step_gain_val            = "100";       // mdB
-                                        default_gain             = "0";         // mdB
-
-                                        min_exp_time             = "1";         // us
-                                        max_exp_time             = "1000000";   // us
-                                        step_exp_time            = "1";         // us
-                                        default_exp_time         = "10000";     // us
-
-                                        // For applications like argus_camera, there should 
-                                        // be a minimal frame rate greater than zero!
-                                        min_framerate            = "100";       // mHz
-                                        max_framerate            = "60000";     // mHz
-                                        step_framerate           = "100";       // mHz
-                                        default_framerate        = "60000";     // mHz
-                                        // ----------------------------------------------------
-
-                                        gain_factor              = "1000";
-                                        exposure_factor          = "1000000";
-                                        framerate_factor         = "1000";
-                                        inherent_gain            = "1";
-                                        min_hdr_ratio            = "1";
-                                        max_hdr_ratio            = "1";
-
-                                        line_length              = "0";
-                                        phy_mode                 = "DPHY";
-                                        discontinuous_clk        = "no";
-                                        mclk_khz                 = "24000";
-
-                                        pix_clk_hz               = PIX_CLK_HZ;
-                                        mclk_multiplier          = "0.0";       // deprecated
-                                        cil_settletime           = "0";
-                                        dpcm_enable              = "false";
-                                };
-
-                                ports {
-                                        #address-cells = <1>;
-                                        #size-cells = <0>;
-                                        port@0 {
-                                                reg = <0>;
-                                                vc_mipi_out1: endpoint {
-                                                        port-index = <2>;
-                                                        bus-width = <BUS_WIDTH>;
-                                                        remote-endpoint = <&vc_csi_in1>;
-                                                };
-                                        };
-                                };
-                        };
-                };
-#endif // VC_MIPI_CAM_1
-        };
-
         lens@vc_mipi {
                 min_focus_distance  = "0.0";
                 hyper_focal         = "0.0";
@@ -370,105 +443,8 @@
                 f_number            = "2.0";
                 aperture            = "0.0";
         };
-};
 
-// GPIO Expander
-
-&gen2_i2c {
-	job_gpio_expander: gpio@20 {
-		compatible = "nxp,pcal6408";
-		status = "okay";
-		reg = <0x20>;
-		gpio-controller;
-		#gpio-cells = <2>;
-		gpio-line-names =
-			"CSIA_PEN",
-			"CSIB_PEN",
-			"USBC1_PEN",
-			"DISABLE_POE_DCDC",
-			"CSIA_FLG",
-			"CSIB_FLG",
-			"USBC1_FLG",
-			"USBC0_FLG";
-		interrupt-parent = <&tegra_main_gpio>;
-		interrupts = <TEGRA234_MAIN_GPIO(P, 6) GPIO_ACTIVE_LOW>;
-		interrupt-controller;
-		#interrupt-cells = <2>;
-
-        // lock CSI A cameras always-on
-		csia_pen-hog {
-			gpio-hog;
-			gpios = <0 GPIO_ACTIVE_HIGH>;
-			output-high;
-		};
-        // lock CSI B cameras always-OFF (since we're not using it)
-		csib_pen-hog {
-			gpio-hog;
-			gpios = <1 GPIO_ACTIVE_HIGH>;
-			output-low;
-		};
-
-        // other stuff cribbed from the antmicro dtsi, not sure if it's necessary but here it is in case
-		usbc1_pen-hog {
-			gpio-hog;
-			gpios = <2 GPIO_ACTIVE_HIGH>;
-			output-high;
-		};
-		disable_poe_dcdc-hog {
-			gpio-hog;
-			gpios = <3 GPIO_ACTIVE_HIGH>;
-			output-low;
-		};
-	};
-};
-
-// i2c mux
-
-&cam_i2c {
-	job_cam_i2c_mux: pca9548@70 {
-		compatible = "nxp,pca9548";
-		status = "okay";
-		reg = <0x70>;
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-#if VC_MIPI_CAM_0 == 1
-                job_cam0_i2c: i2c@0 {
-                        status = "okay";
-                        reg = <0>;
-                        #address-cells = <1>;
-                        #size-cells = <0>;
-#if VC_MIPI_MANUFACTURER == 1
-                        vc_mipi@1a {
-#else
-                        vc_mipi@60 {
-#endif
-                                // this space left intentionally blank
-                                //reset-gpios = <&tegra_main_gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
-                        };
-                };
-#endif
-
-#if VC_MIPI_CAM_1 == 1
-                job_cam1_i2c: i2c@1 {
-                        status = "okay";
-                        reg = <1>;
-                        #address-cells = <1>;
-                        #size-cells = <0>;
-#if VC_MIPI_MANUFACTURER == 1
-                        vc_mipi@1a {
-#else
-                        vc_mipi@60 {
-#endif
-                                // this space left intentionally blank
-                                //reset-gpios = <&tegra_main_gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
-                        };
-                };
-#endif
-    };
-};
-
-/ {
+#if 0
 	/*
 	 * Assign fixed I2C bus numbers (visible as /dev/i2c-*)
 	 * to muxed CAM I2C interfaces
@@ -485,4 +461,5 @@
 		i2c19 = &job_cam3_i2c;
 */
 	};
+#endif
 };
