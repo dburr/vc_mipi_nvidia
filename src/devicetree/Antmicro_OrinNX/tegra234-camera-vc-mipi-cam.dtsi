@@ -425,7 +425,7 @@
 // i2c mux
 
 &cam_i2c {
-	cam_i2cmux: pca9548@70 {
+	job_cam_i2c_mux: pca9548@70 {
 		compatible = "nxp,pca9548";
 		status = "okay";
 		reg = <0x70>;
