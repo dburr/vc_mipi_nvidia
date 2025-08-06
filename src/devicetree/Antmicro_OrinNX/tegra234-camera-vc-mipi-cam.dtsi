@@ -143,7 +143,7 @@
 		#size-cells = <0>;
  
 #if VC_MIPI_CAM_0 == 1
-                                        i2c@0 {
+                                        job_cam0_i2c: i2c@0 {
                                                 status = "okay";
                                                 reg = <0>;
                                                 #address-cells = <1>;
@@ -248,7 +248,7 @@
 #endif
 
 #if VC_MIPI_CAM_1 == 1
-                                        i2c@1 {
+                                        job_cam1_i2c: i2c@1 {
                                                 status = "okay";
                                                 reg = <1>;
                                                 #address-cells = <1>;
@@ -444,7 +444,6 @@
                 aperture            = "0.0";
         };
 
-#if 0
 	/*
 	 * Assign fixed I2C bus numbers (visible as /dev/i2c-*)
 	 * to muxed CAM I2C interfaces
@@ -461,5 +460,4 @@
 		i2c19 = &job_cam3_i2c;
 */
 	};
-#endif
 };
