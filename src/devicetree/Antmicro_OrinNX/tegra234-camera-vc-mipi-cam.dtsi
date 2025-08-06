@@ -433,7 +433,7 @@
 		#size-cells = <0>;
 
 #if VC_MIPI_CAM_0 == 1
-                i2c@0 {
+                job_cam0_i2c: i2c@0 {
                         status = "okay";
                         reg = <0>;
                         #address-cells = <1>;
@@ -443,12 +443,14 @@
 #else
                         vc_mipi@60 {
 #endif
+                                // this space left intentionally blank
                                 //reset-gpios = <&tegra_main_gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
                         };
                 };
 #endif
+
 #if VC_MIPI_CAM_1 == 1
-                i2c@1 {
+                job_cam1_i2c: i2c@1 {
                         status = "okay";
                         reg = <1>;
                         #address-cells = <1>;
@@ -458,30 +460,13 @@
 #else
                         vc_mipi@60 {
 #endif
-                                //reset-gpios = <&tegra_main_gpio CAM1_PWDN GPIO_ACTIVE_HIGH>;
+                                // this space left intentionally blank
+                                //reset-gpios = <&tegra_main_gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
                         };
                 };
 #endif
-
-/* these are defined in Antmicro's devicetree but are unused in this context
-
-		job_cam2_i2c: i2c@2 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <2>;
-		};
-
-		job_cam3_i2c: i2c@3 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <3>;
-		};
-	};
-*/
     };
 };
-
-#if 0 // TODO
 
 / {
 	/*
@@ -501,6 +486,3 @@
 */
 	};
 };
-#endif
-
-// to be continued
