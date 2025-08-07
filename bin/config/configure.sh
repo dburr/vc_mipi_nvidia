@@ -231,7 +231,7 @@ OrinNano4GB_SD|OrinNano8GB_SD|OrinNano4GB_NVME|OrinNano8GB_NVME|OrinNX8GB|OrinNX
                 # ORIN_DTB_SUFFIX='-p3509-a02.dtb'
                 case $VC_MIPI_BSP in
                 35.4.1)
-                        PATCHES+=('dt_Antmicro_OrinNX')
+                        PATCHES+=('Antmicro_OrinNX')
                         ;;
                 esac
                 FLASH_BOARD='jetson-orin-nano-devkit'
