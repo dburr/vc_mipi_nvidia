@@ -141,7 +141,9 @@
 		reg = <0x70>;
 		#address-cells = <1>;
 		#size-cells = <0>;
-                skip_mux_detect = "yes";
+                force_bus_start = <0x1E>;
+                //force_bus_start = <CAMERA_I2C_MUX_BUS(0)>;
+                //skip_mux_detect = "yes";
  
 #if VC_MIPI_CAM_0 == 1
                                         job_cam0_i2c: i2c@0 {
@@ -180,7 +182,7 @@
                                                         // to use the V4L API.
                                                         mode0 {
                                                                 num_lanes                = NUM_LANES;
-                                                                tegra_sinterface         = "serial_b";
+                                                                tegra_sinterface         = "serial_a";
                                                                 embedded_metadata_height = VC_MIPI_METADATA_H;
                                                                 readout_orientation      = "0";
                                                                 lane_polarity            = "6";
@@ -353,6 +355,94 @@
                                         };
 #endif
     };
+};
+
+/ {
+	tcp: tegra-camera-platform {
+		compatible = "nvidia, tegra-camera-platform";
+		status = "okay";
+		/**
+		* Physical settings to calculate max ISO BW
+		*
+		* num_csi_lanes = <>;
+		* Total number of CSI lanes when all cameras are active
+		*
+		* max_lane_speed = <>;
+		* Max lane speed in Kbit/s
+		*
+		* min_bits_per_pixel = <>;
+		* Min bits per pixel
+		*
+		* vi_peak_byte_per_pixel = <>;
+		* Max byte per pixel for the VI ISO case
+		*
+		* vi_bw_margin_pct = <>;
+		* Vi bandwidth margin in percentage
+		*
+		* max_pixel_rate = <>;
+		* Max pixel rate in Kpixel/s for the ISP ISO case
+		*
+		* isp_peak_byte_per_pixel = <>;
+		* Max byte per pixel for the ISP ISO case
+		*
+		* isp_bw_margin_pct = <>;
+		* Isp bandwidth margin in percentage
+		*/
+		num_csi_lanes = <NUM_CSI_LANES>;
+		max_lane_speed = <1500000>;
+		min_bits_per_pixel = <10>;
+		vi_peak_byte_per_pixel = <2>;
+		vi_bw_margin_pct = <25>;
+		max_pixel_rate = <240000>;
+		isp_peak_byte_per_pixel = <5>;
+		isp_bw_margin_pct = <25>;
+
+                modules {
+#if VC_MIPI_CAM_0 == 1
+                        cam_module0: module0 {
+                                badge = "jakku_front_vc_mipi";
+                                position = "front";
+                                orientation = "1";
+                                cam_module0_drivernode0: drivernode0 {
+                                        pcl_id = "v4l2_sensor";
+#if VC_MIPI_MANUFACTURER == 1
+                                        devname = "vc_mipi 16-001a";
+                                        proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/vc_mipi@1a";
+#else
+                                        devname = "vc_mipi 16-0060";
+                                        proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@0/vc_mipi@60";
+#endif
+                                };
+                                cam_module0_drivernode1: drivernode1 {
+                                        pcl_id = "v4l2_lens";
+                                        proc-device-tree = "/proc/device-tree/lens@vc_mipi/";
+                                };
+                        };
+#endif // VC_MIPI_CAM_0
+
+#if VC_MIPI_CAM_1 == 1
+                        cam_module1: module1 {
+                                badge = "jakku_rear_vc_mipi";
+                                position = "rear";
+                                orientation = "1";
+                                cam_module1_drivernode0: drivernode0 {
+                                pcl_id = "v4l2_sensor";
+#if VC_MIPI_MANUFACTURER == 1
+                                devname = "vc_mipi 17-001a";
+                                proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@1/vc_mipi@1a";
+#else
+                                devname = "vc_mipi 17-0060";
+                                proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@1/vc_mipi@60";
+#endif	
+                                };
+                                cam_module1_drivernode1: drivernode1 {
+                                        pcl_id = "v4l2_lens";
+                                        proc-device-tree = "/proc/device-tree/lens@vc_mipi/";
+                                };
+                        };
+#endif // VC_MIPI_CAM_1
+                };
+	};
 };
 
 / {
