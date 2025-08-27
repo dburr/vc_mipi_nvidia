@@ -133,35 +133,23 @@
 };
 
 &cam_i2c {
-    job_cam_i2c_mux: pca9548@70 {
+    cam_i2cmux: pca9548@70 {
         compatible = "nxp,pca9548";
         status = "okay";
         reg = <0x70>;
         #address-cells = <1>;
         #size-cells = <0>;
 
-        job_cam0_i2c: i2c@0 {
+        cam0_i2c: i2c@0 {
             #address-cells = <1>;
             #size-cells = <0>;
             reg = <0>;
         };
 
-        job_cam1_i2c: i2c@1 {
+        cam1_i2c: i2c@1 {
             #address-cells = <1>;
             #size-cells = <0>;
             reg = <1>;
-        };
-
-        job_cam2_i2c: i2c@2 {
-            #address-cells = <1>;
-            #size-cells = <0>;
-            reg = <2>;
-        };
-
-        job_cam3_i2c: i2c@3 {
-            #address-cells = <1>;
-            #size-cells = <0>;
-            reg = <3>;
         };
     };
 };
@@ -172,10 +160,8 @@
      * to muxed CAM I2C interfaces
      */
     aliases {
-        i2c16 = &job_cam0_i2c;
-        i2c17 = &job_cam1_i2c;
-        i2c18 = &job_cam2_i2c;
-        i2c19 = &job_cam3_i2c;
+        i2c16 = &cam0_i2c;
+        i2c17 = &cam1_i2c;
     };
 };
 
