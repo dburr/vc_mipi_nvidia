@@ -139,6 +139,7 @@
         reg = <0x70>;
         #address-cells = <1>;
         #size-cells = <0>;
+        skip_mux_detect;
 
         cam0_i2c: i2c@0 {
             #address-cells = <1>;
@@ -165,7 +166,6 @@
     };
 };
 
-#if 0
 / {
     tegra-capture-vi  {
         num-channels = <VC_MIPI_CAMERAS>;
@@ -249,8 +249,10 @@
 #endif
         }; // nvcsi
     }; // host1x
+};
 
-    cam_i2cmux {
+
+    &cam_i2cmux {
 #if VC_MIPI_CAM_0 == 1
         i2c@0 {
 #if VC_MIPI_MANUFACTURER == 1
@@ -446,7 +448,7 @@
         }; // i2c@1
 #endif // VC_MIPI_CAM_1
     }; // cam_i2cmux
-
+#if 0
     lens@vc_mipi {
         min_focus_distance  = "0.0";
         hyper_focal         = "0.0";
@@ -454,5 +456,5 @@
         f_number            = "2.0";
         aperture            = "0.0";
     };
-}; // root
+
 #endif
