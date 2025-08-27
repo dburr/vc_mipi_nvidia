@@ -83,8 +83,8 @@
     #define VC_MIPI_CAMERAS 1
 #endif
 
-/ {
-    // GPIO Expander
+// GPIO Expander
+&gen2_i2c {
     pcal6408: gpio@20 {
         compatible = "nxp,pcal6408";
         status = "okay";
@@ -130,8 +130,57 @@
             output-low;
         };
     };
+};
+
+&cam_i2c {
+    job_cam_i2c_mux: pca9548@70 {
+        compatible = "nxp,pca9548";
+        status = "okay";
+        reg = <0x70>;
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        job_cam0_i2c: i2c@0 {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            reg = <0>;
+        };
+
+        job_cam1_i2c: i2c@1 {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            reg = <1>;
+        };
+
+        job_cam2_i2c: i2c@2 {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            reg = <2>;
+        };
+
+        job_cam3_i2c: i2c@3 {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            reg = <3>;
+        };
+    };
+};
+
+/ {
+    /*
+     * Assign fixed I2C bus numbers (visible as /dev/i2c-*)
+     * to muxed CAM I2C interfaces
+     */
+    aliases {
+        i2c16 = &job_cam0_i2c;
+        i2c17 = &job_cam1_i2c;
+        i2c18 = &job_cam2_i2c;
+        i2c19 = &job_cam3_i2c;
+    };
+};
 
 #if 0
+/ {
     tegra-capture-vi  {
         num-channels = <VC_MIPI_CAMERAS>;
         ports {
@@ -419,5 +468,5 @@
         f_number            = "2.0";
         aperture            = "0.0";
     };
-#endif // 0
 }; // root
+#endif
