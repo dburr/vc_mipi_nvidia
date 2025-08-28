@@ -3,7 +3,3 @@
 .vscode-ctags*
 build/
 temp/
-typescript
-*.save
-tmp
-TODO
