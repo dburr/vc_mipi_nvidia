@@ -121,7 +121,7 @@
         csib_pen-hog {
             gpio-hog;
             gpios = <1 GPIO_ACTIVE_HIGH>;
-            output-low;
+            output-high;
         };
 #endif  // HOG_CAMERA_GPIOS
 
