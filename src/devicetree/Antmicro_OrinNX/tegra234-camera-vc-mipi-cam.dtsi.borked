@@ -58,10 +58,6 @@
 //  this repository https://github.com/VC-MIPI-modules/vc_mipi_nvidia#gstreamer-support
 // ------------------------------------------------------------------------------------------------
 
-// Antmicro specific stuff
-// Set to 1 to permanently lock camera power ON
-#define HOG_CAMERA_GPIOS 0
-
 #if VC_MIPI_LANES == 1
     #define BUS_WIDTH 1
     #define NUM_LANES "1" 
@@ -110,7 +106,8 @@
         interrupt-controller;
         #interrupt-cells = <2>;
 
-#if HOG_CAMERA_GPIOS
+// disabling for now - we're gonna try and let the driver have control
+#if 0
         // lock CSI A cameras always-on
         csia_pen-hog {
             gpio-hog;
@@ -123,7 +120,7 @@
             gpios = <1 GPIO_ACTIVE_HIGH>;
             output-low;
         };
-#endif  // HOG_CAMERA_GPIOS
+#endif
 
         // other stuff cribbed from the antmicro dtsi, not sure if it's necessary but here it is in case
         usbc1_pen-hog {
@@ -173,11 +170,7 @@
             vc_mipi_cam0: vc_mipi@60 {
                 reg                     = <0x60>;
 #endif
-
-#if !HOG_CAMERA_GPIOS
-                // gpio 0 on the expander is CSIA_PEN
                 reset-gpios = <&job_gpio_expander 0 GPIO_ACTIVE_HIGH>;
-#endif
 
                 compatible              = "nvidia,vc_mipi";
                 devnode                 = "video0";
@@ -258,7 +251,7 @@
                     port@0 {
                         reg = <0>;
                         vc_mipi_out0: endpoint {
-                            port-index = <1>;
+                            port-index = <0>;
                             bus-width = <BUS_WIDTH>;
                             remote-endpoint = <&vc_csi_in0>;
                         };
@@ -272,7 +265,7 @@
         job_cam1_i2c: i2c@1 {
             status = "okay";
             reg = <1>;
-            i2c-mux,deselect-on-exit;
+            //i2c-mux,deselect-on-exit;
             #address-cells = <1>;
             #size-cells = <0>;
 
@@ -283,11 +276,7 @@
             vc_mipi_cam1: vc_mipi@60 {
                 reg                     = <0x60>;
 #endif
-
-#if !HOG_CAMERA_GPIOS
-                // gpio 1 on the expander is CSIB_PEN
                 reset-gpios = <&job_gpio_expander 1 GPIO_ACTIVE_HIGH>;
-#endif
 
                 compatible              = "nvidia,vc_mipi";
                 devnode                 = "video1";
@@ -448,17 +437,17 @@
                 orientation = "1";
                 cam_module1_drivernode0: drivernode0 {
                     pcl_id = "v4l2_sensor";
-    #if VC_MIPI_MANUFACTURER == 1
+#if VC_MIPI_MANUFACTURER == 1
                     devname = "vc_mipi 17-001a";
                     proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@1/vc_mipi@1a";
-    #else
+#else
                     devname = "vc_mipi 17-0060";
                     proc-device-tree = "/proc/device-tree/cam_i2cmux/i2c@1/vc_mipi@60";
-    #endif	
+#endif	
                 };
                 cam_module1_drivernode1: drivernode1 {
-                    pcl_id = "v4l2_lens";
-                    proc-device-tree = "/proc/device-tree/lens@vc_mipi/";
+                        pcl_id = "v4l2_lens";
+                        proc-device-tree = "/proc/device-tree/lens@vc_mipi/";
                 };
             };
 #endif // VC_MIPI_CAM_1
