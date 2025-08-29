@@ -60,7 +60,7 @@
 
 // Antmicro specific stuff
 // Set to 1 to permanently lock camera power ON
-#define HOG_CAMERA_GPIOS 0
+#define HOG_CAMERA_GPIOS 1
 
 #if VC_MIPI_LANES == 1
     #define BUS_WIDTH 1
