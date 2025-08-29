@@ -87,7 +87,7 @@
     #define VC_MIPI_CAMERAS 1
 #endif
 
-// GPIO Expander
+// gpio mux
 
 &gen2_i2c {
     job_gpio_expander: gpio@20 {
