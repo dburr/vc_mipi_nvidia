@@ -141,11 +141,6 @@
 
 // i2c mux
 
-#define CAMERA_I2C_MUX_BUS(x) (0x16 + x)
-// #define CAMERA_I2C_MUX_BUS(x) (0x1E + x)
-// #define CAMERA_I2C_MUX_BUS(x) (0x03 + x)
-// #define CAMERA_I2C_MUX_BUS(x) (0x01 + x)
-
 &cam_i2c {
     job_cam_i2c_mux: pca9548@70 {
         compatible = "nxp,pca9548";
@@ -153,10 +148,7 @@
         reg = <0x70>;
         #address-cells = <1>;
         #size-cells = <0>;
-        //force_bus_start = <0x01>;
-        skip_mux_detect;
-        force_bus_start = <CAMERA_I2C_MUX_BUS(0)>;
-        //skip_mux_detect = "yes";
+        i2c-parent = <&cam_i2c>;
  
 #if VC_MIPI_CAM_0 == 1
         job_cam0_i2c: i2c@0 {
