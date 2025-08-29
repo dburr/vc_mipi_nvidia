@@ -57,10 +57,13 @@
 //  To find the correct parameter values please follow the instruction in the main README.md of 
 //  this repository https://github.com/VC-MIPI-modules/vc_mipi_nvidia#gstreamer-support
 // ------------------------------------------------------------------------------------------------
-
 // Antmicro specific stuff
-// Set to 1 to permanently lock camera power ON
+// ------------------------------------------------------------------------------------------------
+// DO NOT CHANGE THIS. Both cameras are connected to CSI 1 (= CSIA_PEN power
+// signal) and so cannot be individually turned off. Easiest/safest option is
+// to just leave them powered up.
 #define HOG_CAMERA_GPIOS 1
+// ------------------------------------------------------------------------------------------------
 
 #if VC_MIPI_LANES == 1
     #define BUS_WIDTH 1
@@ -277,8 +280,8 @@
 #endif
 
 #if !HOG_CAMERA_GPIOS
-                // gpio 1 on the expander is CSIB_PEN
-                reset-gpios = <&job_gpio_expander 1 GPIO_ACTIVE_HIGH>;
+                // gpio 0 on the expander is CSIA_PEN
+                reset-gpios = <&job_gpio_expander 0 GPIO_ACTIVE_HIGH>;
 #endif
 
                 compatible              = "nvidia,vc_mipi";
