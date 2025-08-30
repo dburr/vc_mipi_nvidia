@@ -20,7 +20,7 @@
 #include <dt-bindings/clock/tegra234-clock.h>
 
 // ------------------------------------------------------------------------------------------------
-//  Driver Configuration for NVIDIA Jetson Orin NX on Auvidea JNX42 LM Developer Kit
+//  Driver Configuration for NVIDIA Jetson Orin NX on Antmicro Jetson Orin Baseboard
 // ------------------------------------------------------------------------------------------------
 #define VC_MIPI_CAM_0       1   // 1: Enabled, 0: Disabled  (serial_a => CSI Port 0 => VI Stream 0)
 #define VC_MIPI_CAM_1       1   // 1: Enabled, 0: Disabled  (serial_c => CSI Port 2 => VI Stream 2)
