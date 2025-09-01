@@ -1,0 +1,18 @@
+From e8419e6bc7e851938d99ad356d987476b37c1129 Mon Sep 17 00:00:00 2001
+From: Roman Dobrodii <rdobrodii@antmicro.com>
+Date: Tue, 18 Apr 2023 18:25:56 -0700
+Subject: [PATCH] Patch hardware/nvidia/platform/t23x/p3768/kernel-dts/Makefile
+
+---
+ 1 file changed
+
+--- a/hardware/nvidia/platform/t23x/p3768/kernel-dts/Makefile
++++ b/hardware/nvidia/platform/t23x/p3768/kernel-dts/Makefile
+@@ -23,6 +23,7 @@
+ dtb-$(BUILD_ENABLE) += tegra234-p3767-0001-p3768-0000-a0.dtb
+ dtb-$(BUILD_ENABLE) += tegra234-p3767-0003-p3768-0000-a0.dtb
+ dtb-$(BUILD_ENABLE) += tegra234-p3767-0004-p3768-0000-a0.dtb
++dtb-$(BUILD_ENABLE) += tegra234-p3767-0000-antmicro-job.dtb
+ dtbo-$(BUILD_ENABLE) += tegra234-p3767-0000-p3509-a02-adafruit-sph0645lm4h.dtbo
+ dtbo-$(BUILD_ENABLE) += tegra234-p3767-0000-p3509-a02-adafruit-uda1334a.dtbo
+ dtbo-$(BUILD_ENABLE) += tegra234-p3767-0000-p3509-a02-csi.dtbo

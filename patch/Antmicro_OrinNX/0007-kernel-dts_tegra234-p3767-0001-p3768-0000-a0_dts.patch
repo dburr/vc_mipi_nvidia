@@ -1,0 +1,45 @@
+From e8419e6bc7e851938d99ad356d987476b37c1129 Mon Sep 17 00:00:00 2001
+From: Roman Dobrodii <rdobrodii@antmicro.com>
+Date: Tue, 18 Apr 2023 18:25:56 -0700
+Subject: [PATCH] hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0001-p3768-0000-a0.dts
+
+---
+ 1 file changed
+
+--- a/hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0001-p3768-0000-a0.dts
++++ b/hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0001-p3768-0000-a0.dts
+@@ -1,7 +1,8 @@
+ /*
+- * Top level DTS file for CVM:P3767-0001 and CVB:P3768-0000.
++ * Top level DTS file for CVM:P3767-0000 and CVB:antmicro-job.
+  *
+- * Copyright (c) 2021-2023, NVIDIA CORPORATION.  All rights reserved.
++ * Copyright (c) 2021-2022, NVIDIA CORPORATION.  All rights reserved.
++ * Copyright (c) 2023 Antmicro <www.antmicro.com>
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+@@ -14,13 +15,18 @@
+  */
+ 
+ /dts-v1/;
+-
+-#include "tegra234-p3767-0000-p3768-0000-a0.dts"
+-#include <t234-common-cvm/tegra234-cpufreq-pair-cooling.dtsi>
++#include "tegra234-dcb-p3767-0000-hdmi.dtsi"
++#include <tegra234-soc/mods-simple-bus.dtsi>
++#include <t234-common-cvm/tegra234-thermal.dtsi>
++#include <t234-common-cvm/tegra234-cpuidle.dtsi>
++#include <t234-common-cvm/tegra234-thermal-cooling.dtsi>
++#include <t234-common-cvm/tegra234-thermal-userspace-alert.dtsi>
++#include "cvm/tegra234-p3767-0000.dtsi"
++#include "cvb/tegra234-antmicro-job.dtsi"
+ 
+ / {
+ 	nvidia,dtsfilename = __FILE__;
+ 	nvidia,dtbbuildtime = __DATE__, __TIME__;
+-	compatible = "nvidia,p3768-0000+p3767-0001", "nvidia,p3767-0001", "nvidia,tegra234", "nvidia,tegra23x";
+-	model = "NVIDIA Orin NX Developer Kit";
++	compatible = "antmicro,job+p3767-0000", "nvidia,p3767-0000", "nvidia,tegra234", "nvidia,tegra23x";
++	model = "NVIDIA Orin NX SoM on Antmicro Jetson Orin Baseboard";
+ };
