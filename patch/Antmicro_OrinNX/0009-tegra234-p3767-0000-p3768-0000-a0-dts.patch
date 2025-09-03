@@ -1,0 +1,26 @@
+From e8419e6bc7e851938d99ad356d987476b37c1129 Mon Sep 17 00:00:00 2001
+From: Roman Dobrodii <rdobrodii@antmicro.com>
+Date: Tue, 18 Apr 2023 18:25:56 -0700
+Subject: [PATCH] hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0000-p3768-0000-a0.dts
+
+---
+ 1 file changed
+
+--- a/hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0000-p3768-0000-a0.dts
++++ b/hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0000-p3768-0000-a0.dts
+@@ -21,11 +21,12 @@
+ #include <t234-common-cvm/tegra234-thermal-cooling.dtsi>
+ #include <t234-common-cvm/tegra234-thermal-userspace-alert.dtsi>
+ #include "cvm/tegra234-p3767-0000.dtsi"
+-#include "cvb/tegra234-p3768-0000-a0.dtsi"
++//#include "cvb/tegra234-p3768-0000-a0.dtsi"
++#include "cvb/tegra234-antmicro-job.dtsi"
+ 
+ / {
+ 	nvidia,dtsfilename = __FILE__;
+ 	nvidia,dtbbuildtime = __DATE__, __TIME__;
+-	compatible = "nvidia,p3768-0000+p3767-0000", "nvidia,p3767-0000", "nvidia,tegra234", "nvidia,tegra23x";
+-	model = "NVIDIA Orin NX Developer Kit";
++  compatible = "antmicro,job+p3767-0000", "nvidia,p3767-0000", "nvidia,tegra234", "nvidia,tegra23x";
++  model = "NVIDIA Orin NX SoM on Antmicro Jetson Orin Baseboard";
+ };
