@@ -26,14 +26,14 @@ Subject: [PATCH] hardware/nvidia/platform/t23x/p3768/kernel-dts/tegra234-p3767-0
 -
 -#include "tegra234-p3767-0000-p3768-0000-a0.dts"
 -#include <t234-common-cvm/tegra234-cpufreq-pair-cooling.dtsi>
-+#include "tegra234-dcb-p3767-0000-hdmi.dtsi"
++//#include "tegra234-dcb-p3767-0000-hdmi.dtsi"
 +#include <tegra234-soc/mods-simple-bus.dtsi>
 +#include <t234-common-cvm/tegra234-thermal.dtsi>
 +#include <t234-common-cvm/tegra234-cpuidle.dtsi>
 +#include <t234-common-cvm/tegra234-thermal-cooling.dtsi>
 +#include <t234-common-cvm/tegra234-thermal-userspace-alert.dtsi>
 +#include "cvm/tegra234-p3767-0000.dtsi"
-+#include "cvb/tegra234-antmicro-job.dtsi"
++//#include "cvb/tegra234-antmicro-job.dtsi"
  
  / {
  	nvidia,dtsfilename = __FILE__;
