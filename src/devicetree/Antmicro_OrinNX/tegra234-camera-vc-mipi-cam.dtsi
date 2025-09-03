@@ -59,10 +59,15 @@
 // ------------------------------------------------------------------------------------------------
 // Antmicro specific stuff
 // ------------------------------------------------------------------------------------------------
-// DO NOT CHANGE THIS. Both cameras are connected to CSI 1 (= CSIA_PEN power
+// DO NOT CHANGE THIS. Leaving this in just in case.
+//
+// The gpio mux is instantiated in Antmicro's dtsi patches, so we don't do it here.
+// As for power gpios, both cameras are connected to CSI 1 (= CSIA_PEN power
 // signal) and so cannot be individually turned off. Easiest/safest option is
 // to just leave them powered up.
+#define INSTANTIATE_GPIO_MUX 0
 #define HOG_CAMERA_GPIOS 1
+#define I2C_MUX_HACKS 0
 // ------------------------------------------------------------------------------------------------
 
 #if VC_MIPI_LANES == 1
@@ -92,6 +97,7 @@
 
 // gpio mux
 
+#if INSTANTIATE_GPIO_MUX
 &gen2_i2c {
     job_gpio_expander: gpio@20 {
         compatible = "nxp,pcal6408";
@@ -141,6 +147,7 @@
         };
     };
 };
+#endif
 
 // i2c mux
 
@@ -152,8 +159,10 @@
         #address-cells = <1>;
         #size-cells = <0>;
         i2c-parent = <&cam_i2c>;
+#if I2C_MUX_HACKS
         vcc-supply = <0x4c>;
         force_bus_start = <0x1E>;
+#endif
 
 #if VC_MIPI_CAM_0 == 1
         job_cam0_i2c: i2c@0 {
