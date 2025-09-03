@@ -152,6 +152,8 @@
         #address-cells = <1>;
         #size-cells = <0>;
         i2c-parent = <&cam_i2c>;
+        vcc-supply = <0x4c>;
+        force_bus_start = <0x1E>;
 
 #if VC_MIPI_CAM_0 == 1
         job_cam0_i2c: i2c@0 {
@@ -178,6 +180,8 @@
                 devnode                 = "video0";
                 use_sensor_mode_id      = "false";
                 sensor_model            = "vc_mipi";
+                nvidia,no-sensor-bus-introspection;
+                //vdd-supply = <&job_reg_csia_3v3>;
 
                 num_lanes               = NUM_LANES;
                 trigger_mode            = "0";
@@ -197,7 +201,7 @@
                     tegra_sinterface         = "serial_a";
                     embedded_metadata_height = VC_MIPI_METADATA_H;
                     readout_orientation      = "0";
-                    lane_polarity            = "6";
+                    lane_polarity            = "0";
 
                     // ----------------------------------------------------
                     // If you want to use GStreamer with nvarguscamerasrc
@@ -244,7 +248,7 @@
                     cil_settletime           = "0";
                     dpcm_enable              = "false";
 
-                    set_mode_delay_ms        = "100000";
+                    //set_mode_delay_ms        = "100000";
                 };
 
                 ports {
@@ -288,6 +292,8 @@
                 devnode                 = "video1";
                 use_sensor_mode_id      = "false";
                 sensor_model            = "vc_mipi";
+                nvidia,no-sensor-bus-introspection;
+                //vdd-supply = <&job_reg_csia_3v3>;
 
                 num_lanes               = NUM_LANES;
                 trigger_mode            = "0";
@@ -352,7 +358,7 @@
                     cil_settletime           = "0";
                     dpcm_enable              = "false";
 
-                    set_mode_delay_ms        = "100000";
+                    //set_mode_delay_ms        = "100000";
                 };
 
                 ports {
