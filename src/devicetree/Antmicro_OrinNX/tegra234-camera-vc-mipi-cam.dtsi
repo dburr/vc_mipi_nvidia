@@ -16,8 +16,8 @@
  */
 
 #include <dt-bindings/media/camera.h>
-#include <dt-bindings/pinctrl/pinctrl-tegra.h>
-#include <dt-bindings/clock/tegra234-clock.h>
+//#include <dt-bindings/pinctrl/pinctrl-tegra.h>
+//#include <dt-bindings/clock/tegra234-clock.h>
 
 // ------------------------------------------------------------------------------------------------
 //  Driver Configuration for NVIDIA Jetson Orin NX on Antmicro Jetson Orin Baseboard
