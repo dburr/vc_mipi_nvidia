@@ -32,7 +32,7 @@
 //  2,4 | IMX178, IMX183, IMX226, IMX250, IMX252, IMX273, IMX290, IMX327, IMX335, IMX392, 
 //      | IMX412, IMX415, IMX462, IMX565, IMX566, IMX567, IMX568, IMX900
 // -----+------------------------------------------------------------------------------------------
-#define VC_MIPI_LANES       2   // 1, 2, 4 Lanes
+#define VC_MIPI_LANES       4   // 1, 2, 4 Lanes
 // ------------------------------------------------------------------------------------------------
 //  Embedded Metadata Height
 // -----+------------------------------------------------------------------------------------------
@@ -268,6 +268,7 @@
                         vc_mipi_out0: endpoint {
                             port-index = <0>;
                             bus-width = <BUS_WIDTH>;
+                            num-lanes = <BUS_WIDTH>;    // is this needed?
                             remote-endpoint = <&vc_csi_in0>;
                         };
                     };
@@ -376,8 +377,9 @@
                     port@0 {
                         reg = <0>;
                         vc_mipi_out1: endpoint {
-                            port-index = <2>;
+                            port-index = <1>;
                             bus-width = <BUS_WIDTH>;
+                            num-lanes = <BUS_WIDTH>;    // is this needed?
                             remote-endpoint = <&vc_csi_in1>;
                         };
                     };
@@ -521,6 +523,7 @@
                         vc_csi_in0: endpoint@0 {
                             port-index = <0>;
                             bus-width = <BUS_WIDTH>;
+                            num-lanes  = <BUS_WIDTH>;           // is this needed?
                             remote-endpoint = <&vc_mipi_out0>;
                         };
                     };
@@ -542,15 +545,16 @@
                     #size-cells = <0>;
                     vc_csi_chan1_port0: port@0 {
                         reg = <0>;
-                        vc_csi_in1: endpoint@2 {
-                            port-index = <2>;
+                        vc_csi_in1: endpoint@0 {
+                            port-index = <1>;
                             bus-width = <BUS_WIDTH>;
+                            num-lanes  = <BUS_WIDTH>;           // is this needed?
                             remote-endpoint = <&vc_mipi_out1>;
                         };
                     };
                     vc_csi_chan1_port1: port@1 {
                         reg = <1>;
-                        vc_csi_out1: endpoint@3 {
+                        vc_csi_out1: endpoint@1 {
                             remote-endpoint = <&vc_vi_in1>;
                         };
                     };
