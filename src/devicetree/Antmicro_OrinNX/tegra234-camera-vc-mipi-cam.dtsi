@@ -65,7 +65,7 @@
 // As for power gpios, both cameras are connected to CSI 1 (= CSIA_PEN power
 // signal) and so cannot be individually turned off. Easiest/safest option is
 // to just leave them powered up.
-#define INSTANTIATE_GPIO_MUX 0
+#define INSTANTIATE_GPIO_MUX 1
 #define HOG_CAMERA_GPIOS 1
 #define I2C_MUX_HACKS 0
 // ------------------------------------------------------------------------------------------------
@@ -210,7 +210,7 @@
                     tegra_sinterface         = "serial_a";
                     embedded_metadata_height = VC_MIPI_METADATA_H;
                     readout_orientation      = "0";
-                    lane_polarity            = "0";
+                    lane_polarity            = "6";
 
                     // ----------------------------------------------------
                     // If you want to use GStreamer with nvarguscamerasrc
