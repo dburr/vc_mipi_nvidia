@@ -222,7 +222,7 @@
                     mode_type                = "bayer";
                     pixel_phase              = "rggb";
                     csi_pixel_bit_depth      = "10";
-#endif
+
                     min_gain_val             = "0";         // mdB
                     max_gain_val             = "51000";     // mdB
                     step_gain_val            = "50";       // mdB
