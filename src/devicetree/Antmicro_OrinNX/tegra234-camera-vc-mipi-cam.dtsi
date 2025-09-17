@@ -16,8 +16,10 @@
  */
 
 #include <dt-bindings/media/camera.h>
-//#include <dt-bindings/pinctrl/pinctrl-tegra.h>
-//#include <dt-bindings/clock/tegra234-clock.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/gpio/tegra234-gpio.h>
+#include <dt-bindings/pinctrl/pinctrl-tegra.h>
+#include <dt-bindings/clock/tegra234-clock.h>
 
 // ------------------------------------------------------------------------------------------------
 //  Driver Configuration for NVIDIA Jetson Orin NX on Antmicro Jetson Orin Baseboard
@@ -32,7 +34,7 @@
 //  2,4 | IMX178, IMX183, IMX226, IMX250, IMX252, IMX273, IMX290, IMX327, IMX335, IMX392, 
 //      | IMX412, IMX415, IMX462, IMX565, IMX566, IMX567, IMX568, IMX900
 // -----+------------------------------------------------------------------------------------------
-#define VC_MIPI_LANES       4   // 1, 2, 4 Lanes
+#define VC_MIPI_LANES       2   // 1, 2, 4 Lanes
 // ------------------------------------------------------------------------------------------------
 //  Embedded Metadata Height
 // -----+------------------------------------------------------------------------------------------
@@ -57,18 +59,10 @@
 //  To find the correct parameter values please follow the instruction in the main README.md of 
 //  this repository https://github.com/VC-MIPI-modules/vc_mipi_nvidia#gstreamer-support
 // ------------------------------------------------------------------------------------------------
-// Antmicro specific stuff
-// ------------------------------------------------------------------------------------------------
-// DO NOT CHANGE THIS. Leaving this in just in case.
-//
-// The gpio mux is instantiated in Antmicro's dtsi patches, so we don't do it here.
-// As for power gpios, both cameras are connected to CSI 1 (= CSIA_PEN power
-// signal) and so cannot be individually turned off. Easiest/safest option is
-// to just leave them powered up.
-#define INSTANTIATE_GPIO_MUX 1
-#define HOG_CAMERA_GPIOS 1
-#define I2C_MUX_HACKS 0
-// ------------------------------------------------------------------------------------------------
+
+// note: these may or may not need to be swapped (hard to tell from the schematic)
+#define CAM0_PWDN       TEGRA234_MAIN_GPIO(H, 6)
+#define CAM1_PWDN       TEGRA234_MAIN_GPIO(AC, 0)
 
 #if VC_MIPI_LANES == 1
     #define BUS_WIDTH 1
@@ -97,7 +91,6 @@
 
 // gpio mux
 
-#if INSTANTIATE_GPIO_MUX
 &gen2_i2c {
     job_gpio_expander: gpio@20 {
         compatible = "nxp,pcal6408";
@@ -119,7 +112,6 @@
         interrupt-controller;
         #interrupt-cells = <2>;
 
-#if HOG_CAMERA_GPIOS
         // lock CSI A cameras always-on
         csia_pen-hog {
             gpio-hog;
@@ -132,7 +124,6 @@
             gpios = <1 GPIO_ACTIVE_HIGH>;
             output-low;
         };
-#endif  // HOG_CAMERA_GPIOS
 
         // other stuff cribbed from the antmicro dtsi, not sure if it's necessary but here it is in case
         usbc1_pen-hog {
@@ -147,7 +138,6 @@
         };
     };
 };
-#endif
 
 // i2c mux
 
@@ -159,10 +149,6 @@
         #address-cells = <1>;
         #size-cells = <0>;
         i2c-parent = <&cam_i2c>;
-#if I2C_MUX_HACKS
-        vcc-supply = <0x4c>;
-        force_bus_start = <0x1E>;
-#endif
 
 #if VC_MIPI_CAM_0 == 1
         job_cam0_i2c: i2c@0 {
@@ -180,16 +166,13 @@
                 reg                     = <0x60>;
 #endif
 
-#if !HOG_CAMERA_GPIOS
-                // gpio 0 on the expander is CSIA_PEN
-                reset-gpios = <&job_gpio_expander 0 GPIO_ACTIVE_HIGH>;
-#endif
+                reset-gpios = <&tegra_main_gpio CAM0_PWDN GPIO_ACTIVE_HIGH>;
 
                 compatible              = "nvidia,vc_mipi";
                 devnode                 = "video0";
                 use_sensor_mode_id      = "false";
                 sensor_model            = "vc_mipi";
-                nvidia,no-sensor-bus-introspection;
+                //nvidia,no-sensor-bus-introspection;
                 //vdd-supply = <&job_reg_csia_3v3>;
 
                 num_lanes               = NUM_LANES;
@@ -249,7 +232,7 @@
 
                     line_length              = "0";
                     phy_mode                 = "DPHY";
-                    discontinuous_clk        = "yes";
+                    discontinuous_clk        = "no";
                     mclk_khz                 = "24000";
                     pix_clk_hz               = PIX_CLK_HZ;
                     mclk_multiplier          = "0.0";		// deprecated
@@ -265,10 +248,10 @@
                     port@0 {
                         reg = <0>;
                         vc_mipi_out0: endpoint {
-                            status = "okay";
+                            //status = "okay";
                             port-index = <0>;
                             bus-width = <BUS_WIDTH>;
-                            num-lanes = <BUS_WIDTH>;    // is this needed?
+                            //num-lanes = <BUS_WIDTH>;    // is this needed?
                             remote-endpoint = <&vc_csi_in0>;
                         };
                     };
@@ -293,16 +276,13 @@
                 reg                     = <0x60>;
 #endif
 
-#if !HOG_CAMERA_GPIOS
-                // gpio 0 on the expander is CSIA_PEN
-                reset-gpios = <&job_gpio_expander 0 GPIO_ACTIVE_HIGH>;
-#endif
+                reset-gpios = <&tegra_main_gpio CAM1_PWDN GPIO_ACTIVE_HIGH>;
 
                 compatible              = "nvidia,vc_mipi";
                 devnode                 = "video1";
                 use_sensor_mode_id      = "false";
                 sensor_model            = "vc_mipi";
-                nvidia,no-sensor-bus-introspection;
+                //nvidia,no-sensor-bus-introspection;
                 //vdd-supply = <&job_reg_csia_3v3>;
 
                 num_lanes               = NUM_LANES;
@@ -361,7 +341,7 @@
 
                     line_length              = "0";
                     phy_mode                 = "DPHY";
-                    discontinuous_clk        = "yes";
+                    discontinuous_clk        = "no";
                     mclk_khz                 = "24000";
                     pix_clk_hz               = PIX_CLK_HZ;
                     mclk_multiplier          = "0.0";		// deprecated
@@ -377,11 +357,11 @@
                     port@0 {
                         reg = <0>;
                         vc_mipi_out1: endpoint {
-                            status = "okay";
+                            //status = "okay";
                             port-index = <2>;
                             bus-width = <BUS_WIDTH>;
-                            num-lanes = <BUS_WIDTH>;    // is this needed?
-                            remote-endpoint = <&vc_csi_in2>;
+                            //num-lanes = <BUS_WIDTH>;    // is this needed?
+                            remote-endpoint = <&vc_csi_in1>;
                         };
                     };
                 };
@@ -442,14 +422,17 @@
 #if VC_MIPI_MANUFACTURER == 1
                     devname = "vc_mipi 16-001a";
                     proc-device-tree = "/proc/device-tree/i2c@3180000/pca9548@70/i2c@0/vc_mipi@1a";
+                    sysfs-device-tree = "/sys/firmware/devicetree/base/i2c@3180000/pca9548@70/i2c@0/vc_mipi@1a";
 #else
                     devname = "vc_mipi 16-0060";
                     proc-device-tree = "/proc/device-tree/i2c@3180000/pca9548@70/i2c@0/vc_mipi@60";
+                    sysfs-device-tree = "/sys/firmware/devicetree/base/i2c@3180000/pca9548@70/i2c@0/vc_mipi@60";
 #endif
                 };
                 cam_module0_drivernode1: drivernode1 {
                     pcl_id = "v4l2_lens";
                     proc-device-tree = "/proc/device-tree/lens@vc_mipi/";
+                    sysfs-device-tree = "/sys/firmware/devicetree/base/lens@vc_mipi";
                 };
             };
 #endif // VC_MIPI_CAM_0
@@ -461,17 +444,20 @@
                 orientation = "1";
                 cam_module1_drivernode0: drivernode0 {
                     pcl_id = "v4l2_sensor";
-    #if VC_MIPI_MANUFACTURER == 1
+#if VC_MIPI_MANUFACTURER == 1
                     devname = "vc_mipi 17-001a";
                     proc-device-tree = "/proc/device-tree/i2c@3180000/pca9548@70/i2c@1/vc_mipi@1a";
-    #else
+                    sysfs-device-tree = "/sys/firmware/devicetree/base/i2c@3180000/pca9548@70/i2c@1/vc_mipi@60";
+#else
                     devname = "vc_mipi 17-0060";
                     proc-device-tree = "/proc/device-tree/i2c@3180000/pca9548@70/i2c@1/vc_mipi@60";
-    #endif	
+                    sysfs-device-tree = "/sys/firmware/devicetree/base/i2c@3180000/pca9548@70/i2c@1/vc_mipi@60";
+#endif	
                 };
                 cam_module1_drivernode1: drivernode1 {
                     pcl_id = "v4l2_lens";
                     proc-device-tree = "/proc/device-tree/lens@vc_mipi/";
+                    sysfs-device-tree = "/sys/firmware/devicetree/base/lens@vc_mipi";
                 };
             };
 #endif // VC_MIPI_CAM_1
@@ -491,7 +477,7 @@
                 vc_vi_in0: endpoint {
                     port-index = <0>;
                     bus-width = <BUS_WIDTH>;
-                    num-lanes  = <BUS_WIDTH>;           // is this needed?
+                    //num-lanes  = <BUS_WIDTH>;           // is this needed?
                     remote-endpoint = <&vc_csi_out0>;
                 };
             };
@@ -499,10 +485,10 @@
 #if VC_MIPI_CAM_1 == 1
             vc_vi_port1: port@1 {
                 reg = <1>;
-                vc_vi_in2: endpoint {
+                vc_vi_in1: endpoint {
                     port-index = <2>;
                     bus-width = <BUS_WIDTH>;
-                    num-lanes  = <BUS_WIDTH>;           // is this needed?
+                    //num-lanes  = <BUS_WIDTH>;           // is this needed?
                     remote-endpoint = <&vc_csi_out1>;
                 };
             };
@@ -526,7 +512,7 @@
                         vc_csi_in0: endpoint@0 {
                             port-index = <0>;
                             bus-width = <BUS_WIDTH>;
-                            num-lanes  = <BUS_WIDTH>;           // is this needed?
+                            //num-lanes  = <BUS_WIDTH>;           // is this needed?
                             remote-endpoint = <&vc_mipi_out0>;
                         };
                     };
@@ -548,17 +534,17 @@
                     #size-cells = <0>;
                     vc_csi_chan1_port0: port@0 {
                         reg = <0>;
-                        vc_csi_in2: endpoint@0 {
+                        vc_csi_in1: endpoint@2 {
                             port-index = <2>;
                             bus-width = <BUS_WIDTH>;
-                            num-lanes  = <BUS_WIDTH>;           // is this needed?
+                            //num-lanes  = <BUS_WIDTH>;           // is this needed?
                             remote-endpoint = <&vc_mipi_out1>;
                         };
                     };
                     vc_csi_chan1_port1: port@1 {
                         reg = <1>;
-                        vc_csi_out1: endpoint@1 {
-                            remote-endpoint = <&vc_vi_in2>;
+                        vc_csi_out1: endpoint@3 {
+                            remote-endpoint = <&vc_vi_in1>;
                         };
                     };
                 };
@@ -590,5 +576,17 @@
         i2c18 = &job_cam2_i2c;
         i2c19 = &job_cam3_i2c;
 */
+    };
+};
+
+
+/ {
+    gpio@2200000 {
+        camera-control-output-low {
+            gpio-hog;
+            output-low;
+            gpios = <CAM0_PWDN 0 CAM1_PWDN 0>;
+            label = "cam0-pwdn","cam1-pwdn";
+        };
     };
 };
