@@ -112,13 +112,14 @@
         interrupt-controller;
         #interrupt-cells = <2>;
 
-        // lock CSI A cameras always-on
+        // lock cameras always-on
         csia_pen-hog {
             gpio-hog;
             gpios = <0 GPIO_ACTIVE_HIGH>;
             output-high;
         };
-        // lock CSI B cameras always-OFF (since we're not using it)
+
+        // not using CSI B so leave cameras powered off
         csib_pen-hog {
             gpio-hog;
             gpios = <1 GPIO_ACTIVE_HIGH>;
