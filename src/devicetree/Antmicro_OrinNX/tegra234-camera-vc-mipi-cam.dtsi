@@ -60,7 +60,6 @@
 //  this repository https://github.com/VC-MIPI-modules/vc_mipi_nvidia#gstreamer-support
 // ------------------------------------------------------------------------------------------------
 
-// note: these may or may not need to be swapped (hard to tell from the schematic)
 #define CAM0_PWDN       TEGRA234_MAIN_GPIO(H, 6)
 #define CAM1_PWDN       TEGRA234_MAIN_GPIO(AC, 0)
 
