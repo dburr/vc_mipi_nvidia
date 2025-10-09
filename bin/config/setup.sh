@@ -250,12 +250,23 @@ setup_driver() {
                 ;;
         OrinNX8GB|OrinNX16GB)
                 choose_board 3 5 7
+                #echo "board is $board"
 
                 case ${board} in
                 NV_DevKit_OrinNano)
                         choose_bsp 8 9
                         ;;
+                Antmicro)
+                        #echo "ant"
+                        # 5 = 35.2.1
+                        # 6 = 35.3.1
+                        # 7 = 35.4.1
+                        # 8 = 36.2.0
+                        # 9 = 36.4.0
+                        choose_bsp 7
+                        ;;
                 *)
+                        #echo "generic"
                         choose_bsp 5 6 7 8 9
                         ;;
                 esac
