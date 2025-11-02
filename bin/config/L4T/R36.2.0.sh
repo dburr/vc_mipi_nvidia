@@ -42,6 +42,12 @@ DTSI_DEST_DICT+=(["Auvidea_JNX42_OrinNano"]="$KERNEL_SOURCE/hardware/nvidia/t23x
 DTSI_FILE_DICT+=(["Auvidea_JNX42_OrinNX"]="tegra234-p3767-camera-p3768-vc_mipi-dual.dts")
 DTSI_DEST_DICT+=(["Auvidea_JNX42_OrinNX"]="$KERNEL_SOURCE/hardware/nvidia/t23x/nv-public/overlay")
 
+DTSI_FILE_DICT+=(["Antmicro_OrinNX"]="tegra234-p3767-camera-p3768-vc_mipi-dual.dts")
+DTSI_DEST_DICT+=(["Antmicro_OrinNX"]="$KERNEL_SOURCE/hardware/nvidia/t23x/nv-public/overlay")
+
+DTSI_FILE_DICT+=(["Antmicro_OrinNano"]="tegra234-camera-vc-mipi-cam.dtsi")
+DTSI_DEST_DICT+=(["Antmicro_OrinNano"]="$KERNEL_SOURCE/hardware/nvidia/platform/t23x/p3768/kernel-dts/cvb")
+
 #setup
 DRIVER_DST_DIR=$KERNEL_SOURCE/nvidia-oot/drivers/media/i2c/vc_mipi
 KERNEL_OUT=$KERNEL_SOURCE/nvidia-oot
