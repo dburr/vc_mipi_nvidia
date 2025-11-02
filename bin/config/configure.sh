@@ -48,6 +48,7 @@ DTSI_FILE_DICT+=(
                 ["NV_DevKit_Nano"]="tegra210-camera-vc-mipi-cam.dtsi" 
             ["NV_DevKit_XavierNX"]="tegra194-camera-vc-mipi-cam.dtsi"
           ["Auvidea_JNX30D_TX2NX"]="tegra186-camera-vc-mipi-cam.dtsi"
+               ["Antmicro_OrinNX"]="tegra234-camera-vc-mipi-cam.dtsi"
 )
 
 DTSI_DEST_DICT+=( 
@@ -203,6 +204,15 @@ OrinNano4GB_SD|OrinNano8GB_SD|OrinNano4GB_NVME|OrinNano8GB_NVME|OrinNX8GB|OrinNX
                 esac
 
                 ORIN_DTB_SUFFIX='-p3509-a02.dtb'
+                ;;
+        Antmicro)
+                case $VC_MIPI_BSP in
+                35.4.1)
+                        PATCHES+=('Antmicro_OrinNX')
+                        ;;
+                esac
+                FLASH_BOARD='jetson-orin-nano-devkit'
+                ORIN_DTB_SUFFIX='-antmicro-job.dtb'
                 ;;
         NV_DevKit_OrinNano)
                 FLASH_BOARD='jetson-orin-nano-devkit'

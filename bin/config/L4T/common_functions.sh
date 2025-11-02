@@ -29,8 +29,8 @@ function Common_setup_eeprom_size {
                 fi
 
                 echo "Modifying ${EPROM_FILE} ($VC_MIPI_BSP) ..."
-                # JNX42 has no EEPROM
-                if [[ "Auvidea_JNX42" = $VC_MIPI_BOARD ]]
+                # JNX42 and Antmicro boards do not have EEPROM
+                if [[ "Auvidea_JNX42" = $VC_MIPI_BOARD || "Antmicro" = $VC_MIPI_BOARD ]]
                 then
                         # Setting EPROM size to 0x0
                         sed -i 's/cvb_eeprom_read_size = <0x100>;/cvb_eeprom_read_size = <0x0>;/' ${EPROM_FILE}
@@ -66,7 +66,7 @@ function Common_setup_gpio_file {
                 FIND_RESULT=0
                 FIND_RESULT=$(grep -q "${GPIO_PART_STR}" ${GPIO_FILE}; echo $?)
 
-                if [[ "Auvidea_JNX42" = $VC_MIPI_BOARD ]]
+                if [[ "Auvidea_JNX42" = $VC_MIPI_BOARD || "Antmicro" = $VC_MIPI_BOARD ]]
                 then
                         if [[ 1 == $FIND_RESULT ]]
                         then
@@ -108,7 +108,11 @@ function Common_setup_conf_file {
                 fi
 
                 echo "Modifying ${ORIN_NANO_CONF_FILE} ($VC_MIPI_BSP) ..."
-                CONF_PART_STR='OVERLAY_DTB_FILE="${OVERLAY_DTB_FILE},tegra234-p3767-camera-p3768-vc_mipi-dual.dtbo";'
+                if [ "Antmicro" = $VC_MIPI_BOARD ] ; then
+                  CONF_PART_STR='OVERLAY_DTB_FILE="${OVERLAY_DTB_FILE},tegra234-p3767-0000-antmicro-job.dtb,tegra234-p3767-camera-p3768-vc_mipi-dual.dtbo";'
+                else
+                  CONF_PART_STR='OVERLAY_DTB_FILE="${OVERLAY_DTB_FILE},tegra234-p3767-camera-p3768-vc_mipi-dual.dtbo";'
+                fi
 
                 FIND_RESULT=0
                 FIND_RESULT=$(grep -q "${CONF_PART_STR}" ${ORIN_NANO_CONF_FILE}; echo $?)

@@ -102,6 +102,7 @@ boards=(
 "Auvidea JNX30/JNX30D (https://auvidea.eu/product/70879)"
 "Auvidea JNX42 LM (https://auvidea.eu/product/70784)"
 "Auvidea J20 on Devkit Jetson AGX Xavier or TX2 (https://auvidea.eu/j20)"
+"Antmicro Jetson Orin Baseboard (https://github.com/antmicro/jetson-orin-baseboard)"
 )
 
 board_keys=(
@@ -112,6 +113,7 @@ board_keys=(
 "Auvidea_JNX30"
 "Auvidea_JNX42"
 "Auvidea_J20"
+"Antmicro"
 )
 
 choose_board() {
@@ -242,6 +244,9 @@ setup_driver() {
                 case ${board} in
                 NV_DevKit_OrinNano)
                         choose_bsp 8 9
+                        ;;
+                Antmicro)
+                        choose_bsp 7
                         ;;
                 *)
                         choose_bsp 5 6 7 8 9
