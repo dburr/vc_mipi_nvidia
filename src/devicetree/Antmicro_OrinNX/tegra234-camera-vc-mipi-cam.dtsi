@@ -363,7 +363,6 @@
 / {
     tcp: tegra-camera-platform {
         compatible = "nvidia, tegra-camera-platform";
-        // status = "okay";         // commented out for now, is this needed?
         /**
         * Physical settings to calculate max ISO BW
         *
