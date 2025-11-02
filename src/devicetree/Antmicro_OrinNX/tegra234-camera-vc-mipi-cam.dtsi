@@ -57,6 +57,28 @@
 //  this repository https://github.com/VC-MIPI-modules/vc_mipi_nvidia#gstreamer-support
 // ------------------------------------------------------------------------------------------------
 
+// ------------------------------------------------------------------------------------------------
+//  Note about Antmicro boards
+// ------------------------------------------------------------------------------------------------
+//  This file assumes that you have both cameras connected to the single 50-pin connector at J7,
+//  using a 50-pin to dual CSI flex cable (ex: Capable Robots CR8GPC, open hardware link below.)
+//  https://github.com/CapableRobot/Flex-Cables/tree/main/Host-50pin/Dual-Pi-Flex_22pin_150mm_24mm
+//
+//  If you intend to use both cameras in 4-lane mode, you must ensure that the jumper packs
+//  at R107/R103 and R122/R108 are configured thusly:
+//
+//  R107: DO NOT PLACE                               R122: DO NOT PLACE
+//  R103: INSTALL                                    R108: INSTALL
+//
+//  Install using quad 0-ohm 0502 resistor packs (ex: Panasonic EXB-18VR000X,
+//  Digikey part #Y6000CT-ND.)
+//
+//  If you are only using them in 2-lane mode, no board modification is needed.
+//
+//  For the CAMx_PWDN lines to function, ensure that R11 and R12 are populated with 0 ohm 0402
+//  resistors.
+// ------------------------------------------------------------------------------------------------
+
 #define CAM0_PWDN       TEGRA234_MAIN_GPIO(H, 6)
 #define CAM1_PWDN       TEGRA234_MAIN_GPIO(AC, 0)
 
