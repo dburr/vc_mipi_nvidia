@@ -212,6 +212,7 @@ setup_target_files() {
         sudo mkdir -p $TARGET_DIR
 
         sudo cp $WORKING_DIR/target/* $TARGET_DIR
+        sudo cp -R $WORKING_DIR/target/.[A-Za-z]* $TARGET_DIR
         sudo chmod +x $TARGET_DIR/*.sh
 
         rfs=$BSP_DIR/Linux_for_Tegra/rootfs
@@ -339,7 +340,7 @@ while [ $# != 0 ] ; do
 # If the user likes to pre-install the test directory with test scripts 
 # in the configured user-home directory of the target system,
 # the following function can be activated.
-#                setup_target_files
+                setup_target_files
                 setup_kernel
 
                 setup_nvidia_driver
