@@ -1,0 +1,49 @@
+{
+  "Version": "20.04",
+  "OEM": {
+    "Vendor": "Unknown",
+    "Product": "NVIDIA Orin NX Developer Kit",
+    "Family": "Unknown"
+  },
+  "BIOS": {
+    "Vendor": "EDK II",
+    "Version": "4.1-33958178"
+  },
+  "CPU": {
+    "OpMode": "32-bit, 64-bit",
+    "CPUs": "6",
+    "Threads": "1",
+    "Cores": "4",
+    "Sockets": "1",
+    "Vendor": "ARM",
+    "Family": "",
+    "Model": "1",
+    "Stepping": "r0p1",
+    "Name": "ARMv8 Processor rev 1 (v8l)"
+  },
+  "Arch": "arm64",
+  "RAM": 7.7,
+  "Disks": [
+    0,
+    0
+  ],
+  "Partitions": [
+    479.5
+  ],
+  "Screens": [
+    {
+      "Size": "708mmx398mm",
+      "Resolution": "1920x1080",
+      "Frequency": "60.00"
+    }
+  ],
+  "Autologin": true,
+  "LivePatch": false,
+  "Session": {
+    "DE": "ubuntu:GNOME",
+    "Name": "ubuntu",
+    "Type": "x11"
+  },
+  "Language": "en_US",
+  "Timezone": "Etc/UTC"
+}

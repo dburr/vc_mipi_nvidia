@@ -208,12 +208,25 @@ create_target_user() {
 setup_target_files() {
         echo "Setup target files ..."
 
-        TARGET_DIR=$BSP_DIR/Linux_for_Tegra/rootfs/home/$TARGET_USER/test
+        TARGET_DIR=$BSP_DIR/Linux_for_Tegra/rootfs/home/$TARGET_USER
         sudo mkdir -p $TARGET_DIR
 
+        # copy in setup/test scripts
         sudo cp $WORKING_DIR/target/* $TARGET_DIR
-        sudo cp -R $WORKING_DIR/target/.[A-Za-z]* $TARGET_DIR
         sudo chmod +x $TARGET_DIR/*.sh
+
+        # copy in all dotfiles
+        sudo cp -R $WORKING_DIR/target/.[A-Za-z]* $TARGET_DIR
+
+        # set DISPLAY and add xhost
+        cat << _EOF_SHELL_CUSTOMIZATIONS_ | sudo tee -a $TARGET_DIR/.bashrc
+
+# ensure DISPLAY is set
+export DISPLAY=:0
+
+# allow remote x11 connections
+xhost +
+_EOF_SHELL_CUSTOMIZATIONS_
 
         rfs=$BSP_DIR/Linux_for_Tegra/rootfs
         sudo chown -v -R $(cat "${rfs}"/etc/passwd | grep ${TARGET_USER} | cut -d : -f 3-4) \
