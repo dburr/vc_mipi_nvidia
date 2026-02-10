@@ -213,8 +213,8 @@ setup_target_files() {
 
         # copy in camera configuration
         OVERRIDE_TARGET_DIR=$BSP_DIR/Linux_for_Tegra/var/nvidia/nvcam/settings
-        sudo rm -v $OVERRIDE_TARGET_DIR/nvcam_cache_*
-        sudo rm -v $OVERRIDE_TARGET_DIR/serial_no_*
+        sudo rm -fv $OVERRIDE_TARGET_DIR/nvcam_cache_*
+        sudo rm -fv $OVERRIDE_TARGET_DIR/serial_no_*
         sudo cp -v $WORKING_DIR/target/camera_overrides/camera_overrides.isp $OVERRIDE_TARGET_DIR
         sudo chmod 664 $OVERRIDE_TARGET_DIR/camera_overrides.isp
         sudo chown root:root $OVERRIDE_TARGET_DIR/camera_overrides.isp
