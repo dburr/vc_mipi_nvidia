@@ -207,24 +207,28 @@ create_target_user() {
 
 setup_target_files() {
         echo "Setup target files ..."
+        #set -x
 
-        TARGET_DIR=$BSP_DIR/Linux_for_Tegra/rootfs/home/$TARGET_USER
-        sudo mkdir -p $TARGET_DIR
+        ROOTFS_DIR=$BSP_DIR/Linux_for_Tegra/rootfs/
 
         # copy in camera configuration
-        OVERRIDE_TARGET_DIR=$BSP_DIR/Linux_for_Tegra/rootfs/var/nvidia/nvcam/settings
-        sudo rm -fv $OVERRIDE_TARGET_DIR/nvcam_cache_*
-        sudo rm -fv $OVERRIDE_TARGET_DIR/serial_no_*
-        sudo cp -v $WORKING_DIR/target/camera_overrides/camera_overrides.isp $OVERRIDE_TARGET_DIR
-        sudo chmod 664 $OVERRIDE_TARGET_DIR/camera_overrides.isp
-        sudo chown root:root $OVERRIDE_TARGET_DIR/camera_overrides.isp
+        CAMERA_OVERRIDE_DIR=$ROOTFS_DIR/var/nvidia/nvcam/settings
+        sudo mkdir -p $CAMERA_OVERRIDE_DIR
+        sudo rm -fv $CAMERA_OVERRIDE_DIR/nvcam_cache_*
+        sudo rm -fv $CAMERA_OVERRIDE_DIR/serial_no_*
+        sudo cp -v $WORKING_DIR/target/camera_overrides/camera_overrides.isp $CAMERA_OVERRIDE_DIR
+        sudo chmod 664 $CAMERA_OVERRIDE_DIR/camera_overrides.isp
+        sudo chown root:root $CAMERA_OVERRIDE_DIR/camera_overrides.isp
+
+        TARGET_DIR=$ROOTFS_DIR/home/$TARGET_USER
+        sudo mkdir -p $TARGET_DIR
 
         # copy in setup/test scripts
-        sudo cp $WORKING_DIR/target/* $TARGET_DIR
+        sudo cp -v $WORKING_DIR/target/*.sh $TARGET_DIR
         sudo chmod +x $TARGET_DIR/*.sh
 
         # copy in all dotfiles
-        sudo cp -R $WORKING_DIR/target/.[A-Za-z]* $TARGET_DIR
+        sudo cp -Rv $WORKING_DIR/target/.[A-Za-z]* $TARGET_DIR
 
         # set DISPLAY and add xhost
         cat << _EOF_SHELL_CUSTOMIZATIONS_ | sudo tee -a $TARGET_DIR/.bashrc
@@ -239,6 +243,8 @@ _EOF_SHELL_CUSTOMIZATIONS_
         rfs=$BSP_DIR/Linux_for_Tegra/rootfs
         sudo chown -v -R $(cat "${rfs}"/etc/passwd | grep ${TARGET_USER} | cut -d : -f 3-4) \
                 "${rfs}/home/${TARGET_USER}" > /dev/null
+
+        echo "ALL DONE"
 }
 
 setup_bsp() {
